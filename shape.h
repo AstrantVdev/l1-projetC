@@ -2,6 +2,8 @@
 // Created by 33611 on 24/03/2023.
 //
 
+
+#include <stdlib.h>
 #include "fonctions.h"
 #include "struct.h"
 
