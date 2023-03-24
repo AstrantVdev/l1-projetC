@@ -2,17 +2,13 @@
 // Created by 33611 on 24/03/2023.
 //
 
+#include "fonctions.h"
+#include "struct.h"
+
 #ifndef L1_PROJETC_SHAPE_H
 #define L1_PROJETC_SHAPE_H
 
-typedef enum { POINT, LINE, SQUARE, RECTANGLE, CIRCLE, POLYGON} SHAPE_TYPE;
 
-
-typedef struct shape {
-    int id; // identifiant unique de la forme
-    SHAPE_TYPE shape_type; // type de la forme pointé
-    void *ptrShape; // pointeur sur n'importe quelle forme
-}Shape;
 
 Shape *create_empty_shape(SHAPE_TYPE shape_type);
 Shape *create_point_shape(int px, int py);
