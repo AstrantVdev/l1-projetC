@@ -1,3 +1,0 @@
-C:/Users/guill/OneDrive/Documents/GitHub/l1-projetC/cmake-build-debug/CMakeFiles/l1_projetC.dir
-C:/Users/guill/OneDrive/Documents/GitHub/l1-projetC/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/guill/OneDrive/Documents/GitHub/l1-projetC/cmake-build-debug/CMakeFiles/rebuild_cache.dir
