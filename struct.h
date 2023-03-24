@@ -11,7 +11,7 @@ typedef struct {
     int pos_y;
 }Point;
 
-typedef struct line {
+typedef struct {
     Point *p1;
     Point *p2;
 }Line;
@@ -32,7 +32,7 @@ typedef struct {
     int radius;
 }Circle;
 
-typedef struct polygon {
+typedef struct {
     int n;
     Point ** points; // tableau 1D dynamique de Point*
 }Polygon;
@@ -40,7 +40,7 @@ typedef struct polygon {
 typedef enum { POINT, LINE, SQUARE, RECTANGLE, CIRCLE, POLYGON} SHAPE_TYPE;
 
 
-typedef struct shape {
+typedef struct {
     int id; // identifiant unique de la forme
     SHAPE_TYPE shape_type; // type de la forme pointé
     void *ptrShape; // pointeur sur n'importe quelle forme
