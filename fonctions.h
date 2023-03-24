@@ -13,7 +13,6 @@ void delete_line(Line * line);
 void print_line(Line * line);
 
 
-
 Square *create_square(Point * point, int length);
 void delete_square(Square * square);
 void print_square(Square * square);
