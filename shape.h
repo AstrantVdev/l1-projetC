@@ -3,9 +3,6 @@
 //
 
 
-#include <stdlib.h>
-#include "fonctions.h"
-#include "struct.h"
 
 #ifndef L1_PROJETC_SHAPE_H
 #define L1_PROJETC_SHAPE_H

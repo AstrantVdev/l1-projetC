@@ -7,4 +7,4 @@ include_directories(.)
 
 add_executable(l1_projetC
         fonctions.h
-        main.c shape.h struct.h shape.c)
+        main.c shape.h struct.h shape.c fonctions.c)
