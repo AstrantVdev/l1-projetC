@@ -1,4 +1,3 @@
-#include "struct.h"
 
 #ifndef L1_PROJETC_FONCTIONS_H
 #define L1_PROJETC_FONCTIONS_H
