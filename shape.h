@@ -1,13 +1,7 @@
-//
-// Created by 33611 on 24/03/2023.
-//
-
-
+#include "struct.h"
 
 #ifndef L1_PROJETC_SHAPE_H
 #define L1_PROJETC_SHAPE_H
-
-
 
 Shape *create_empty_shape(SHAPE_TYPE shape_type);
 Shape *create_point_shape(int px, int py);

@@ -1,18 +1,8 @@
 #include <stdio.h>
-<<<<<<< HEAD
-#include "fonctions.h"
-unsigned int global_id = 0;
-
-int main (){
-    int run = 1;
-
-    while(run){
-        printf("1");
-=======
-#include <stdio.h>
 #include "fonctions.h"
 #include "shape.h"
 #include "struct.h"
+#include <stdlib.h>
 unsigned int global_id = 0;
 
 int main (){
@@ -34,7 +24,7 @@ int main (){
             else printf(".");
         }
         printf("\n");
->>>>>>> cd8070111012b40209431ee07e69b52ff15d2782
+
     }
 
     return 0;
