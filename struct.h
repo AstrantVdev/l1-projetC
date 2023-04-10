@@ -24,7 +24,7 @@ typedef struct {
 typedef struct {
     Point * p;
     int width;
-    int length;
+    int height;
 }Rectangle;
 
 typedef struct {
