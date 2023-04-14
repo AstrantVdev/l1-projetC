@@ -41,7 +41,7 @@ typedef enum { POINT, LINE, SQUARE, RECTANGLE, CIRCLE, POLYGON} SHAPE_TYPE;
 
 
 typedef struct {
-    int id; // identifiant unique de la forme
+    unsigned int id; // identifiant unique de la forme
     SHAPE_TYPE shape_type; // type de la forme pointé
     void *ptrShape; // pointeur sur n'importe quelle forme
 }Shape;

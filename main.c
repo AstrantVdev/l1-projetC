@@ -1,11 +1,23 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "fonctions.h"
 #include "shape.h"
 #include "struct.h"
-#include <stdlib.h>
-unsigned int global_id = 0;
+#include "id.h"
+#include "interface.h"
 
 int main (){
+
+    int menu = 1;
+    while(menu){
+        menu = 0;
+    }
+    return 0;
+};
+
+/* A conserver au cas où ça sera utile
+
     Point* List_point = (Point*) malloc(40*sizeof(Point));
     for (int i = 0; i < 4; i++){
         for(int j = 0; j < 10; j++){
@@ -25,7 +37,4 @@ int main (){
         }
         printf("\n");
 
-    }
-
-    return 0;
-};
+    }*/
