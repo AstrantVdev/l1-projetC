@@ -1,7 +1,7 @@
 #include "struct.h"
 
-#ifndef L1_PROJETC_FONCTIONS_H
-#define L1_PROJETC_FONCTIONS_H
+#ifndef L1_PROJECT_FONCTIONS_H
+#define L1_PROJECT_FONCTIONS_H
 
 Point *create_point(int px, int py);
 void delete_point(Point * point);
