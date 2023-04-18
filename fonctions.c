@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "struct.h"
-#include "shape.h"
 #include "fonctions.h"
 
 Point *create_point(int px, int py)
@@ -12,17 +11,16 @@ Point *create_point(int px, int py)
     p->pos_y = py;
     return p;
 }
-
 void delete_point(Point * point)
 {
     free(point);
     point = NULL;
 }
-
 void print_point(Point * p)
 {
     printf("POINT %d %d", p->pos_x, p->pos_y);
 }
+
 
 
 Line *create_line(Point * p1, Point * p2)
@@ -40,11 +38,12 @@ void delete_line(Line * line)
     free(line);
     line = NULL;
 }
-
 void print_line(Line * line)
 {
     printf("LINE %d %d %d %d", line->p1->pos_x, line->p1->pos_y, line->p2->pos_x, line->p2->pos_y);
 }
+
+
 
 Square *create_square(Point * point, int length)
 {
@@ -94,29 +93,29 @@ Circle *create_circle(Point * center, int radius)
 {
     Circle * circle = NULL;
     circle = (Circle*) malloc(sizeof(Circle));
-    circle->point = center;
+    circle->p = center;
     circle->radius = radius;
     return circle;
 }
 void delete_circle(Circle * circle)
 {
-    free(circle->point);
+    free(circle->p);
     free(circle);
     circle = NULL;
 }
 void print_circle(Circle * circle)
 {
-    printf("CIRCLE %d %d %d\n", circle->point->pos_x, circle->point->pos_y, circle->radius);
+    printf("CIRCLE %d %d %d\n", circle->p->pos_x, circle->p->pos_y, circle->radius);
 }
 
 
 
-Polygon *create_polygon(int n)
+Polygon *create_polygon(int n, Point** tab)
 {
     Polygon* polygon = NULL;
     polygon = (Polygon*) malloc(sizeof(Polygon));
     polygon->n = n;
-    polygon->points = (Point**) malloc(n*sizeof(Point*));
+    polygon->points = tab;
     return polygon;
 }
 void delete_polygon(Polygon * polygon)
