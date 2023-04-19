@@ -92,22 +92,16 @@ void print_shape(Shape *shape){
 
     switch ( type ) {
         case POINT:
-            printf("type : POINT "); //seul facon de pront la valeur d'une enum, cf : https://stackoverflow.com/questions/3168306/print-text-instead-of-value-from-c-enum
             print_point(shape->ptrShape);
         case LINE:
-            printf("type : LINE ");
             print_line(shape->ptrShape);
         case SQUARE:
-            printf("type : SQUARE ");
             print_square(shape->ptrShape);
         case RECTANGLE:
-            printf("type : RECTANGLE ");
             print_rectangle(shape->ptrShape);
         case CIRCLE:
-            printf("type : CIRCLE ");
             print_circle(shape->ptrShape);
         case POLYGON:
-            printf("type : POLYGON ");
             print_polygon(shape->ptrShape);
 
         default:
