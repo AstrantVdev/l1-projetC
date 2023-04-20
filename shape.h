@@ -22,4 +22,5 @@ void delete_shape(Shape * shape);
 void print_shape(Shape * shape);
 
 
+
 #endif //L1_PROJETC_SHAPE_H
