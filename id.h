@@ -5,7 +5,7 @@
 #ifndef L1_PROJETC_ID_H
 #define L1_PROJETC_ID_H
 
-unsigned int global_id = 1;
+unsigned int global_id;
 unsigned int get_next_id();
 
 

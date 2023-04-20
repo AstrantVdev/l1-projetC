@@ -22,7 +22,4 @@ void delete_shape(Shape * shape);
 void print_shape(Shape * shape);
 
 
-unsigned int get_next_id();
-
-
 #endif //L1_PROJETC_SHAPE_H

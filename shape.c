@@ -110,7 +110,3 @@ void print_shape(Shape *shape){
     }
 
 }
-
-unsigned int get_next_id(){
-
-}

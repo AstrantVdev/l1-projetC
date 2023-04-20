@@ -3,21 +3,24 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "interface.h"
 #include "struct.h"
 #include "shape.h"
 
 
-int choice(int n_option)
+int choice(int n_option, int n_tab)
 {
     int correct = 1, select = 0;
+    for(int i = 0; i < n_tab; i++) printf("\t");
     printf("\nVotre choix :");
     while(correct) {
         correct = scanf("%d", &select);
         if (correct)
             if ((select < 0) || (select > n_option)) correct = 0;
         if (!correct) {
+            for(int i = 0; i < n_tab; i++) printf("\t");
             printf("\nErreur dans la saisie, veuillez réessayer : ");
         }
     }
@@ -55,12 +58,160 @@ void print_dessin()
 
 void print_add_shape()
 {
-    printf("Veuillez choisir une action :\n"
-           "\t1- Ajouter un point\n"
-           "\t2- Ajouter une ligne\n"
-           "\t3- Ajouter cercle\n"
-           "\t4- Ajouter un carre\n"
-           "\t5- Ajouter un rectangle\n"
-           "\t6- Ajouter un polygone\n"
-           "\t7- Revenir au menu precedent\n");
+    printf("\tVeuillez choisir une action :\n"
+           "\t\t1- Ajouter un point\n"
+           "\t\t2- Ajouter une ligne\n"
+           "\t\t3- Ajouter un cercle\n"
+           "\t\t4- Ajouter un carre\n"
+           "\t\t5- Ajouter un rectangle\n"
+           "\t\t6- Ajouter un polygone\n"
+           "\t\t7- Revenir au menu precedent\n");
+}
+
+int* add_points(int nb_point)
+{
+    int success = 0;
+    int *coords = (int*) malloc(sizeof(int)*nb_point);
+    if (nb_point == 1){
+        printf("\n\t\tSaisir les coordonnées du point x y : ");
+        success = scanf("%d %d", coords, coords+1);
+        while (!success){
+            printf("\n\t\tErreur dans la saisie, veuillez resaisir les coordonnées x y : ");
+            success = scanf("%d %d", coords, coords+1);
+        }
+    }else{
+        for (int i = 0; i < nb_point; i++) {
+            printf("\n\t\tSaisir les coordonnées du point n°%d x%d y%d :", i, i, i);
+            success = scanf("%d %d", coords + 2 * i, coords + 2 * i + 1);
+            while (!success) {
+                printf("\n\t\tErreur dans la saisie, veuillez resaisir les coordonnées x%d y%d : ", i, i);
+                success = scanf("%d %d", coords + 2 * i, coords + 2 * i + 1);
+            }
+        }
+    }
+    return coords;
+}
+
+void add_radius(int* radius)
+{
+    int success = 0;
+    printf("\n\t\tSaisir le rayon du cercle : ");
+    success = scanf("%d", radius);
+    while (!success){
+        printf("\n\t\tErreur dans la saisie, veuillez resaisir le rayon : ");
+        success = scanf("%d", radius);
+    }
+}
+
+void add_size_rectangle(int* width, int* height)
+{
+    int success = 0;
+    printf("\n\t\tSaisir la longueur du rectangle : ");
+    success = scanf("%d", width);
+    while (!success){
+        printf("\n\t\tErreur dans la saisie, veuillez resaisir la longueur : ");
+        success = scanf("%d", width);
+    }
+    printf("\n\t\tSaisir la largeur du rectangle : ");
+    success = scanf("%d", height);
+    while (!success){
+        printf("\n\t\tErreur dans la saisie, veuillez resaisir la largeur : ");
+        success = scanf("%d", height);
+    }
+}
+
+void add_length_square(int* length)
+{
+    int success = 0;
+    printf("\n\t\tSaisir la longueur du carré : ");
+    success = scanf("%d", length);
+    while (!success){
+        printf("\n\t\tErreur dans la saisie, veuillez resaisir la longueur : ");
+        success = scanf("%d", length);
+    }
+}
+
+void add_nb_points(int* nb_points)
+{
+    int success = 0;
+    printf("\n\t\tSaisir le nombre de point du polygone : ");
+    success = scanf("%d", nb_points);
+    while (!success){
+        printf("\n\t\tErreur dans la saisie, veuillez resaisir le nombre de point : ");
+        success = scanf("%d", nb_points);
+    }
+}
+
+Shape *print_add_point()
+{
+    int* coords;
+    Shape* point;
+    printf("\n\t\tAjout d'un point :");
+    coords = add_points(1);
+    point = create_point_shape(coords[0], coords[1]);
+    free(coords);
+    return point;
+}
+Shape *print_add_line()
+{
+    int* coords;
+    Shape* line;
+    printf("\n\t\tAjout d'une ligne :");
+    coords = add_points(2);
+    line = create_line_shape(coords[0], coords[1], coords[2], coords[3]);
+    free(coords);
+    return line;
+}
+Shape *print_add_circle()
+{
+    int radius = 0, *coords;
+    Shape* circle;
+    printf("\n\t\tAjout d'un cercle :");
+
+    coords = add_points(1);
+    add_radius(&radius);
+
+    circle = create_circle_shape(coords[0], coords[1], radius);
+    free(coords);
+    return circle;
+}
+Shape *print_add_square()
+{
+    int length = 0, *coords;
+    Shape* square;
+    printf("\n\t\tAjout d'un carré :");
+
+    coords = add_points(1);
+    add_length_square(&length);
+
+    square = create_square_shape(coords[0], coords[1], length);
+    free(coords);
+    return square;
+}
+Shape *print_add_rectangle()
+{
+    int width = 0, height = 0, *coords;
+    Shape* rectangle;
+    printf("\n\t\tAjout d'un carré :");
+
+    coords = add_points(1);
+    add_size_rectangle(&width, &height);
+
+    rectangle = create_rectangle_shape(coords[0], coords[1], width, height);
+    free(coords);
+    return rectangle;
+}
+
+Shape *print_add_polygon()
+{
+    int *coords, nb_point = 0;
+    Shape* polygon;
+    printf("\n\t\tAjout d'un carré :");
+
+    add_nb_points(&nb_point);
+    coords = add_points(nb_point);
+
+    polygon = create_polygon_shape(coords, nb_point);
+    free(coords);
+    return polygon;
 }
