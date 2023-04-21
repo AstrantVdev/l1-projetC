@@ -9,7 +9,7 @@
 #include "shape.h"
 
 
-int choice(int n_option, int character, int n_tab)
+int choice(int n_option, int character)
 {
     int correct = 0;
     char select_char = 'n';
@@ -22,21 +22,22 @@ int choice(int n_option, int character, int n_tab)
         borne_sup = 65 + n_option-1;
     }
 
-    for(int i = 0; i < n_tab; i++) printf("\t");
     printf("\nVotre choix :");
-
     while(!correct) {
-        select_char = 'n';
-        select_int = 0;
-        if (character) correct = scanf(" %c", &select_char);
-        else correct = scanf("%d", &select_int);
+        if (character) {
+            fflush(stdin);
+            correct = scanf(" %c", &select_char);
+        }
+        else {
+            fflush(stdin);
+            correct = scanf("%d", &select_int);
+        }
         if (correct){
             if (character) {
                 if ((select_char < borne_inf) || (select_char > borne_sup)) correct = 0;
             }else if ((select_int < borne_inf) || (select_int > borne_sup)) correct = 0;
         }
         if (!correct) {
-            for(int i = 0; i < n_tab; i++) printf("\t");
             printf("\nErreur dans la saisie, veuillez reessayer : ");
         }
     }
@@ -61,9 +62,11 @@ void print_accueuil()
 void print_list_shape(Shape** list_shape, int len)
 {
     if (len == 0) printf("\nListe vide\n\n");
-    else for(int i = 0; i < len; i++){
-        printf("\n\t-%d : ", i);
-        print_shape(*(list_shape+i));
+    else{
+        printf("\nListe des formes :\n");
+        for(int i = 0; i < len; i++) {
+            print_shape(list_shape[i]);
+        }
     }
 }
 
@@ -77,15 +80,15 @@ void add_shape(Shape** list_shape, int* n_shape)
 {
     int choice_shape = 1;
     while(choice_shape){
-        printf("\tVeuillez choisir une action :\n"
-               "\t\t1- Ajouter un point\n"
-               "\t\t2- Ajouter une ligne\n"
-               "\t\t3- Ajouter un cercle\n"
-               "\t\t4- Ajouter un carre\n"
-               "\t\t5- Ajouter un rectangle\n"
-               "\t\t6- Ajouter un polygone\n"
-               "\t\t7- Revenir au menu precedent\n");
-        choice_shape = choice(7, 0, 1);
+        printf("Veuillez choisir une action :\n"
+               "\t1- Ajouter un point\n"
+               "\t2- Ajouter une ligne\n"
+               "\t3- Ajouter un cercle\n"
+               "\t4- Ajouter un carre\n"
+               "\t5- Ajouter un rectangle\n"
+               "\t6- Ajouter un polygone\n"
+               "\t7- Revenir au menu precedent\n");
+        choice_shape = choice(7, 0);
         switch(choice_shape){
             case 1 :{
                 list_shape[*n_shape] = add_point();
@@ -128,20 +131,24 @@ void add_shape(Shape** list_shape, int* n_shape)
 int* ask_points(int nb_point)
 {
     int success = 0;
-    int *coords = (int*) malloc(sizeof(int)*nb_point);
+    int *coords = (int*) malloc(sizeof(int)*nb_point*2);
     if (nb_point == 1){
-        printf("\n\t\tSaisir les coordonnées du point x y : ");
+        printf("\nSaisir les coordonnees du point x y : ");
+        fflush(stdin);
         success = scanf("%d %d", coords, coords+1);
         while (!success){
-            printf("\n\t\tErreur dans la saisie, veuillez resaisir les coordonnées x y : ");
+            printf("\nErreur dans la saisie, veuillez resaisir les coordonnees x y : ");
+            fflush(stdin);
             success = scanf("%d %d", coords, coords+1);
         }
     }else{
-        for (int i = 1; i < nb_point+1; i++) {
-            printf("\n\t\tSaisir les coordonnées du point n°%d x%d y%d :", i, i, i);
+        for (int i = 0; i < nb_point; i++) {
+            printf("\nSaisir les coordonnees du point %d x%d y%d :", i+1, i+1, i+1);
+            fflush(stdin);
             success = scanf("%d %d", coords + 2 * i, coords + 2 * i + 1);
             while (!success) {
-                printf("\n\t\tErreur dans la saisie, veuillez resaisir les coordonnées x%d y%d : ", i, i);
+                printf("\nErreur dans la saisie, veuillez resaisir les coordonnees x%d y%d : ", i+1, i+1);
+                fflush(stdin);
                 success = scanf("%d %d", coords + 2 * i, coords + 2 * i + 1);
             }
         }
@@ -152,10 +159,12 @@ int* ask_points(int nb_point)
 void ask_radius(int* radius)
 {
     int success = 0;
-    printf("\n\t\tSaisir le rayon du cercle : ");
+    printf("\nSaisir le rayon du cercle : ");
+    fflush(stdin);
     success = scanf("%d", radius);
     while (!success){
-        printf("\n\t\tErreur dans la saisie, veuillez resaisir le rayon : ");
+        printf("\nErreur dans la saisie, veuillez resaisir le rayon : ");
+        fflush(stdin);
         success = scanf("%d", radius);
     }
 }
@@ -163,16 +172,20 @@ void ask_radius(int* radius)
 void ask_size_rectangle(int* width, int* height)
 {
     int success = 0;
-    printf("\n\t\tSaisir la longueur du rectangle : ");
+    printf("\nSaisir la longueur du rectangle : ");
+    fflush(stdin);
     success = scanf("%d", width);
     while (!success){
-        printf("\n\t\tErreur dans la saisie, veuillez resaisir la longueur : ");
+        printf("\nErreur dans la saisie, veuillez resaisir la longueur : ");
+        fflush(stdin);
         success = scanf("%d", width);
     }
-    printf("\n\t\tSaisir la largeur du rectangle : ");
+    printf("\nSaisir la largeur du rectangle : ");
+    fflush(stdin);
     success = scanf("%d", height);
     while (!success){
-        printf("\n\t\tErreur dans la saisie, veuillez resaisir la largeur : ");
+        printf("\nErreur dans la saisie, veuillez resaisir la largeur : ");
+        fflush(stdin);
         success = scanf("%d", height);
     }
 }
@@ -180,10 +193,12 @@ void ask_size_rectangle(int* width, int* height)
 void ask_length_square(int* length)
 {
     int success = 0;
-    printf("\n\t\tSaisir la longueur du carre : ");
+    printf("\nSaisir la longueur du carre : ");
+    fflush(stdin);
     success = scanf("%d", length);
     while (!success){
-        printf("\n\t\tErreur dans la saisie, veuillez resaisir la longueur : ");
+        printf("\nErreur dans la saisie, veuillez resaisir la longueur : ");
+        fflush(stdin);
         success = scanf("%d", length);
     }
 }
@@ -191,10 +206,12 @@ void ask_length_square(int* length)
 void ask_nb_points(int* nb_points)
 {
     int success = 0;
-    printf("\n\t\tSaisir le nombre de point du polygone : ");
+    printf("\nSaisir le nombre de point du polygone : ");
+    fflush(stdin);
     success = scanf("%d", nb_points);
     while (!success){
-        printf("\n\t\tErreur dans la saisie, veuillez resaisir le nombre de point : ");
+        printf("\nErreur dans la saisie, veuillez resaisir le nombre de point : ");
+        fflush(stdin);
         success = scanf("%d", nb_points);
     }
 }
@@ -203,7 +220,7 @@ Shape *add_point()
 {
     int* coords;
     Shape* point;
-    printf("\n\t\tAjout d'un point :");
+    printf("\n|| Ajout d'un point ||");
     coords = ask_points(1);
     point = create_point_shape(coords[0], coords[1]);
     free(coords);
@@ -213,7 +230,7 @@ Shape *add_line()
 {
     int* coords;
     Shape* line;
-    printf("\n\t\tAjout d'une ligne :");
+    printf("\n|| Ajout d'une ligne ||");
     coords = ask_points(2);
     line = create_line_shape(coords[0], coords[1], coords[2], coords[3]);
     free(coords);
@@ -223,7 +240,7 @@ Shape *add_circle()
 {
     int radius = 0, *coords;
     Shape* circle;
-    printf("\n\t\tAjout d'un cercle :");
+    printf("\n|| Ajout d'un cercle ||");
 
     coords = ask_points(1);
     ask_radius(&radius);
@@ -236,7 +253,7 @@ Shape *add_square()
 {
     int length = 0, *coords;
     Shape* square;
-    printf("\n\t\tAjout d'un carré :");
+    printf("\n|| Ajout d'un carré ||");
 
     coords = ask_points(1);
     ask_length_square(&length);
@@ -249,7 +266,7 @@ Shape *add_rectangle()
 {
     int width = 0, height = 0, *coords;
     Shape* rectangle;
-    printf("\n\t\tAjout d'un rectangle :");
+    printf("\n|| Ajout d'un rectangle ||");
 
     coords = ask_points(1);
     ask_size_rectangle(&width, &height);
@@ -263,7 +280,7 @@ Shape *add_polygon()
 {
     int *coords, nb_point = 0;
     Shape* polygon;
-    printf("\n\t\tAjout d'un polygone :");
+    printf("\n|| Ajout d'un polygone ||");
 
     ask_nb_points(&nb_point);
     coords = ask_points(nb_point);

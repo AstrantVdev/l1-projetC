@@ -11,7 +11,7 @@ int main(){
     Shape** list_shape = (Shape**) calloc(SHAPE_MAX, sizeof(Shape*));
     while(menu){
         print_accueuil();
-        menu = choice(6, 1, 0);
+        menu = choice(6, 1);
         switch(menu){
             case 1: {
                 add_shape(list_shape, &n_shape);

@@ -91,21 +91,35 @@ void print_shape(Shape *shape){
     printf("id : %d ", shape->id);
 
     switch ( type ) {
-        case POINT:
+        case POINT:{
             print_point(shape->ptrShape);
-        case LINE:
+            break;
+        }
+        case LINE:{
             print_line(shape->ptrShape);
-        case SQUARE:
+            break;
+        }
+        case SQUARE:{
             print_square(shape->ptrShape);
-        case RECTANGLE:
+            break;
+        }
+        case RECTANGLE:{
             print_rectangle(shape->ptrShape);
-        case CIRCLE:
+            break;
+        }
+        case CIRCLE:{
             print_circle(shape->ptrShape);
-        case POLYGON:
+            break;
+        }
+        case POLYGON:{
             print_polygon(shape->ptrShape);
+            break;
+        }
 
-        default:
+        default:{
             printf("shape.c : Incorrect SHAPE_TYPE to print");
+            break;
+        }
 
     }
 

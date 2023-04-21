@@ -129,6 +129,6 @@ void print_polygon(Polygon * polygon)
 {
     printf("POLYGON");
     for(int i = 0; i < polygon->n; i++)
-        printf(" %d %d", (*(polygon->points + i))->pos_x, (*(polygon->points + i))->pos_y);
+        printf(" %d %d", ((polygon->points)[i])->pos_x, ((polygon->points)[i])->pos_y);
     printf("\n");
 }

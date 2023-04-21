@@ -7,7 +7,7 @@
 
 #include "shape.h"
 
-int choice(int n_options, int character, int n_tab);
+int choice(int n_options, int character);
 void print_accueuil();
 void print_list_shape(Shape** list_shape, int len);
 void print_dessin();
