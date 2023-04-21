@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "struct.h"
+#include "shape.h"
 #include "fonctions.h"
 
 Point *create_point(int px, int py)

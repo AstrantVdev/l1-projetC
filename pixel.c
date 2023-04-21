@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
 #include "pixel.h"
-#include "struct.h"
+#include "shape.h"
 
 Pixel *create_pixel(int px, int py){
 

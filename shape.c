@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 #include "fonctions.h"
-#include "struct.h"
+#include "shape.h"
 #include "id.h"
 #include <stdio.h>
 

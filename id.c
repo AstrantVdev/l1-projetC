@@ -4,9 +4,10 @@
 
 #include "id.h"
 
-unsigned int global_id = 1;
+
 
 unsigned int get_next_id()
 {
+    static int global_id = 1;
     return global_id++;
 }

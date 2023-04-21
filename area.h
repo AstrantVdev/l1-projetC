@@ -1,4 +1,4 @@
-#include "struct.h"
+#include "shape.h"
 
 #ifndef L1_PROJETC_AREA_H
 #define L1_PROJETC_AREA_H

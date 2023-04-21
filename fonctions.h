@@ -1,4 +1,4 @@
-#include "struct.h"
+#include "shape.h"
 
 #ifndef L1_PROJECT_FONCTIONS_H
 #define L1_PROJECT_FONCTIONS_H

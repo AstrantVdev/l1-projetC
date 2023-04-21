@@ -3,17 +3,15 @@
 
 #include "fonctions.h"
 #include "shape.h"
-#include "struct.h"
 #include "id.h"
 #include "interface.h"
 
 int main(){
-
     int menu = 1, n_shape = 0;
-    Shape** list_shape = (Shape**) malloc(SHAPE_MAX*sizeof(Shape*));
+    Shape** list_shape = (Shape**) calloc(SHAPE_MAX, sizeof(Shape*));
     while(menu){
-        print_accueil();
-        menu = choice(7, 0);
+        print_accueuil();
+        menu = choice(6, 1, 0);
         switch(menu){
             case 1: {
                 add_shape(list_shape, &n_shape);
@@ -21,6 +19,10 @@ int main(){
             }
             case 2: {
                 print_list_shape(list_shape, n_shape);
+                break;
+            }
+            case 3: {
+                print_dessin();
                 break;
             }
             case 6:{
