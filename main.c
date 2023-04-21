@@ -7,11 +7,31 @@
 #include "id.h"
 #include "interface.h"
 
-int main (){
+int main(){
 
-    int menu = 1;
+    int menu = 1, n_shape = 0;
+    Shape** list_shape = (Shape**) malloc(SHAPE_MAX*sizeof(Shape*));
     while(menu){
-        menu = 0;
+        print_accueil();
+        menu = choice(7, 0);
+        switch(menu){
+            case 1: {
+                add_shape(list_shape, &n_shape);
+                break;
+            }
+            case 2: {
+                print_list_shape(list_shape, n_shape);
+                break;
+            }
+            case 6:{
+                menu = 0;
+                break;
+            }
+            default:{
+                printf("A venir prochainement");
+                break;
+            }
+        }
     }
     return 0;
 };

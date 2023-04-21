@@ -9,9 +9,9 @@
 
 int choice(int n_options, int n_tab);
 void print_accueil();
-void print_list_shape(Shape* list_shape, int len);
+void print_list_shape(Shape** list_shape, int len);
 void print_dessin();
-void print_add_shape();
+void add_shape(Shape** list_shape, int* n_shape);
 
 int* add_points(int nb_points);
 void add_radius(int* radius);

@@ -18,7 +18,7 @@ int choice(int n_option, int n_tab)
     while(correct) {
         correct = scanf("%d", &select);
         if (correct)
-            if ((select < 0) || (select > n_option)) correct = 0;
+            if ((select <= 0) || (select > n_option)) correct = 0;
         if (!correct) {
             for(int i = 0; i < n_tab; i++) printf("\t");
             printf("\nErreur dans la saisie, veuillez réessayer : ");
@@ -41,12 +41,12 @@ void print_accueuil()
 }
 
 
-void print_list_shape(Shape* list_shape, int len)
+void print_list_shape(Shape** list_shape, int len)
 {
     printf("\nListe des formes :");
     for(int i = 0; i < len; i++){
         printf("\n\t-%d : ", i);
-        print_shape(list_shape+i);
+        print_shape(*(list_shape+i));
     }
 }
 
@@ -56,8 +56,9 @@ void print_dessin()
     printf("\n\nA venir prochainement \n\n");
 }
 
-void print_add_shape()
+void add_shape(Shape** list_shape, int* n_shape)
 {
+    int choice_shape = 1;
     printf("\tVeuillez choisir une action :\n"
            "\t\t1- Ajouter un point\n"
            "\t\t2- Ajouter une ligne\n"
@@ -66,6 +67,45 @@ void print_add_shape()
            "\t\t5- Ajouter un rectangle\n"
            "\t\t6- Ajouter un polygone\n"
            "\t\t7- Revenir au menu precedent\n");
+    while(choice_shape){
+        choice_shape = choice(7, 1);
+        switch(choice_shape){
+            case 1 :{
+                list_shape[*n_shape] = print_add_point();
+                (*n_shape)++;
+                break;
+            }case 2 :{
+                list_shape[*n_shape] = print_add_line();
+                (*n_shape)++;
+                break;
+            }case 3 :{
+                list_shape[*n_shape] = print_add_circle();
+                (*n_shape)++;
+                break;
+            }case 4 :{
+                list_shape[*n_shape] = print_add_square();
+                (*n_shape)++;
+                break;
+            }case 5 :{
+                list_shape[*n_shape] = print_add_rectangle();
+                (*n_shape)++;
+                break;
+            }case 6 :{
+                list_shape[*n_shape] = print_add_polygon();
+                (*n_shape)++;
+                break;
+            }case 7 :{
+                choice_shape = 0;
+                break;
+            }
+            default:{
+                printf("Error");
+                choice_shape = 0;
+                break;
+            }
+        }
+    }
+
 }
 
 int* add_points(int nb_point)
