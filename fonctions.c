@@ -128,7 +128,8 @@ void delete_polygon(Polygon * polygon)
 void print_polygon(Polygon * polygon)
 {
     printf("POLYGON");
-    for(int i = 0; i < polygon->n; i++)
+    for(int i = 0; i < polygon->n; i++) {
         printf(" %d %d", ((polygon->points)[i])->pos_x, ((polygon->points)[i])->pos_y);
+    }
     printf("\n");
 }

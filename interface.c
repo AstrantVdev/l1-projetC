@@ -66,6 +66,7 @@ void print_list_shape(Shape** list_shape, int len)
         printf("\nListe des formes :\n");
         for(int i = 0; i < len; i++) {
             print_shape(list_shape[i]);
+            printf("\n");
         }
     }
 }
@@ -119,11 +120,12 @@ void add_shape(Shape** list_shape, int* n_shape)
                 break;
             }
             default:{
-                printf("Error");
+                printf("\nError\n");
                 choice_shape = 0;
                 break;
             }
         }
+        if (choice_shape) printf("\nForme ajoute avec succes\n");
     }
 
 }
