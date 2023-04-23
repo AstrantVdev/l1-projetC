@@ -219,11 +219,11 @@ void ask_length_square(int* length)
 void ask_nb_points(int* nb_points)
 {
     int success = 0;
-    printf("\nSaisir le nombre de point du polygone : ");
+    printf("\nSaisir le nombre de point du polygone (minimum 3) : ");
     fflush(stdin);
     success = scanf("%d", nb_points);
-    while (!success){
-        printf("\nErreur dans la saisie, veuillez resaisir le nombre de point : ");
+    while (!success || *nb_points < 3){
+        printf("\nErreur dans la saisie, veuillez resaisir le nombre de point (minimum 3) : ");
         fflush(stdin);
         success = scanf("%d", nb_points);
     }
