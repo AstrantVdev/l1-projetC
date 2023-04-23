@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "fonctions.h"
 #include "shape.h"
-#include "id.h"
 #include "interface.h"
 
 int main(){
@@ -22,7 +20,15 @@ int main(){
                 break;
             }
             case 3: {
-                print_dessin();
+                print_draw();
+                break;
+            }
+            case 4: {
+                print_delete_shape();
+                break;
+            }
+            case 5: {
+                print_help();
                 break;
             }
             case 6:{
@@ -30,10 +36,13 @@ int main(){
                 break;
             }
             default:{
-                printf("A venir prochainement");
+                printf("Error\n");
                 break;
             }
         }
+    }
+    for(int i = 0; i < n_shape; i++){
+        delete_shape(list_shape[i]);
     }
     return 0;
 };

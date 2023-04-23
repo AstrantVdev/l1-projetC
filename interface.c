@@ -63,16 +63,27 @@ void print_list_shape(Shape** list_shape, int len)
 {
     if (len == 0) printf("\nListe vide\n\n");
     else{
-        printf("\nListe des formes :\n");
+        printf("\nListe des formes :\n\n");
         for(int i = 0; i < len; i++) {
             print_shape(list_shape[i]);
-            printf("\n");
         }
+        printf("\n");
     }
 }
 
 
-void print_dessin()
+void print_delete_shape()
+{
+    printf("\n\nA venir prochainement \n\n");
+}
+
+
+void print_draw()
+{
+    printf("\n\nA venir prochainement \n\n");
+}
+
+void print_help()
 {
     printf("\n\nA venir prochainement \n\n");
 }
@@ -255,7 +266,7 @@ Shape *add_square()
 {
     int length = 0, *coords;
     Shape* square;
-    printf("\n|| Ajout d'un carré ||");
+    printf("\n|| Ajout d'un carre ||");
 
     coords = ask_points(1);
     ask_length_square(&length);
