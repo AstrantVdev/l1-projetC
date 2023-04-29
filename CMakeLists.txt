@@ -6,4 +6,4 @@ set(CMAKE_C_STANDARD 11)
 include_directories(.)
 
 add_executable(l1_projetC
-        main.c shape.h shape.c id.c id.h interface.c interface.h)
+        main.c shape.h shape.c id.c id.h interface.c interface.h pixel.h area.h pixel.c area.c)

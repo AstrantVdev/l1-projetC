@@ -3,6 +3,8 @@
 
 #include "shape.h"
 #include "interface.h"
+#include "area.h"
+#include "pixel.h"
 
 int main(){
     int menu = 1, n_shape = 0;
@@ -20,11 +22,11 @@ int main(){
                 break;
             }
             case 3: {
-                print_draw();
+                print_delete_shape();
                 break;
             }
             case 4: {
-                print_delete_shape();
+                print_draw();
                 break;
             }
             case 5: {
