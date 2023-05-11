@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "commands.h"
 
@@ -38,12 +39,12 @@ void read_from_stdin(Command* cmd){
     char c[64];
     fgets(c, 64, stdin);
 
-    char *ptr = strtok(c, " ");
+    int n = 0;
+    char *args = strtok(c, " ");
 
-    while(ptr != NULL)
-    {
-        printf("%s\n", ptr);
-        ptr = strtok(NULL, " ");
+    char *arg = NULL;
+    for(arg = strtok(c, " "); arg != NULL; arg = strtok(NULL," ")){
+
     }
 
 }
