@@ -17,4 +17,20 @@ void free_cmd(Command* cmd);
 int read_exec_command(Command* cmd);
 void read_from_stdin(Command* cmd);
 
+
+
+void cmd_clear(Command* cmd);
+void cmd_exit(Command* cmd);
+void cmd_point(Command* cmd);
+void cmd_line(Command* cmd);
+void cmd_circle(Command* cmd);
+void cmd_square(Command* cmd);
+void cmd_rectangle(Command* cmd);
+void cmd_polygon(Command* cmd);
+void cmd_plot(Command* cmd);
+void cmd_list(Command* cmd);
+void cmd_delete(Command* cmd);
+void cmd_erase(Command* cmd);
+void cmd_help(Command* cmd);
+
 #endif //L1_PROJECT_COMMANDS_H

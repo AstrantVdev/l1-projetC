@@ -6,19 +6,31 @@
 #include "area.h"
 #include "pixel.h"
 
+typedef struct{
+    int running;
+    Shape** list_shape;
+    int menu;
+    int n_shape;
+} App;
+
+App *app;
+
 int main(){
-    int menu = 1, n_shape = 0;
+    app = (App*) malloc(sizeof(App));
+    app->running = 1;
+
+    app->menu = 1, app->n_shape = 0;
     Shape** list_shape = (Shape**) calloc(SHAPE_MAX, sizeof(Shape*));
-    while(menu){
+    while(app->menu){
         print_accueuil();
-        menu = choice(6, 1);
-        switch(menu){
+        app->menu = choice(6, 1);
+        switch(app->menu){
             case 1: {
-                add_shape(list_shape, &n_shape);
+                add_shape(list_shape, &app->n_shape);
                 break;
             }
             case 2: {
-                print_list_shape(list_shape, n_shape);
+                print_list_shape(list_shape, app->n_shape);
                 break;
             }
             case 3: {
@@ -34,7 +46,7 @@ int main(){
                 break;
             }
             case 6:{
-                menu = 0;
+                app->menu = 0;
                 break;
             }
             default:{
@@ -43,7 +55,7 @@ int main(){
             }
         }
     }
-    for(int i = 0; i < n_shape; i++){
+    for(int i = 0; i < app->n_shape; i++){
         delete_shape(list_shape[i]);
     }
     return 0;
