@@ -5,6 +5,7 @@
 
 #define SHAPE_MAX 100 // Nombre maximum de formes
 #define BOOL int
+
 typedef struct area {
     unsigned int width; // Nombre de pixels en largeur ou nombre de colonnes (axe x)
     unsigned int height; // Nombre de pixels en hauteur ou nombre de lignes (axe y)

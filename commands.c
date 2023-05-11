@@ -4,6 +4,8 @@
 #include <ctype.h>
 
 #include "commands.h"
+#include "main.c"
+#include "utils.h"
 
 Command* create_commande(){
     Command *cmd = (Command*) malloc(sizeof(Command));
@@ -102,18 +104,70 @@ void read_from_stdin(Command* cmd){
 
 
 void cmd_clear(Command* cmd){
-
+    erase_area(app->area);
+    jump_page();
+    printf("Les shapes ont été détruites avec succès :d");
 }
 
 void cmd_exit(Command* cmd){
-
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez fermé l'application avec succès :D");
+    app->running = 0;
 }
 
 void cmd_point(Command* cmd){
+    if(cmd->int_size != 2){
+        jump_page();
+        printf("Erreur, cette commande est de la forme :    point x y");
+        return;
+    }
+
+    int x = cmd->int_params[0];
+    int y = cmd->int_params[1];
+
+    if(x > app->area->width){
+        printf("Erreur, x: %d est supérieur à la largeur de la planche, %d", x, app->area->width);
+        return;
+    }
+
+    if(x > app->area->height){
+        printf("Erreur, y: %d est supérieur à la hauteur de la planche, %d", y, app->area->height);
+        return;
+    }
+
+    Shape *point = create_point_shape(x, y);
+    add_shape_to_area(app->area, point);
+
+    jump_page();
+    printf("Le point a été créé avec succès uwu");
 
 }
 
 void cmd_line(Command* cmd){
+
+    if(cmd->int_size != 2){
+        jump_page();
+        printf("Erreur, cette commande est de la forme :    point x y");
+        return;
+    }
+
+    int x = cmd->int_params[0];
+    int y = cmd->int_params[1];
+
+    if(x > app->area->width){
+        printf("Erreur, %d est supérieur à la largeur de la planche, %d", x, app->area->width);
+        return;
+    }
+
+    if(x > app->area->height){
+        printf("Erreur, %d est supérieur à la hauteur de la planche, %d", y, app->area->height);
+        return;
+    }
+
+    Shape *point = create_point_shape(x, y);
+    add_shape_to_area(app->area, point);
+
+    jump_page();
+    printf("Le point a été créé avec succès uwu");
 
 }
 
