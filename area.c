@@ -61,7 +61,7 @@ void print_area(Area* area){
     for(int i = 0; i < area->height; i++){
         for(int j = 0; j < area->width; j++){
             if (area->mat[i][j] == 0) printf("-");
-            else printf("*");
+            else printf("o");
         }
         printf("\n");
     }

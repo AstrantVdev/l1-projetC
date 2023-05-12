@@ -269,10 +269,11 @@ void print_shape(Shape *shape){
             print_polygon(shape->ptrShape);
             break;
         }
-
         default:{
             printf("shape.c : Incorrect SHAPE_TYPE to print");
             break;
         }
+
     }
+
 }

@@ -17,19 +17,20 @@ App *app;
 int main(){
     app = (App*) malloc(sizeof(App));
     app->running = 1;
+    app->area = create_area(100, 25);
 
-    app->menu = 1, app->area.nb_shape = 0;
+    app->menu = 1, app->area->nb_shape = 0;
     Shape** list_shape = (Shape**) calloc(SHAPE_MAX, sizeof(Shape*));
     while(app->menu){
         print_accueuil();
         app->menu = choice(6, 1);
         switch(app->menu){
             case 1: {
-                add_shape(list_shape, &app->area.nb_shape);
+                add_shape(list_shape, &app->area->nb_shape);
                 break;
             }
             case 2: {
-                print_list_shape(list_shape, app->area.nb_shape);
+                print_list_shape(list_shape, app->area->nb_shape);
                 break;
             }
             case 3: {
@@ -54,7 +55,7 @@ int main(){
             }
         }
     }
-    for(int i = 0; i < app->area.nb_shape; i++){
+    for(int i = 0; i < app->area->nb_shape; i++){
         delete_shape(list_shape[i]);
     }
     return 0;
