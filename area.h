@@ -22,4 +22,9 @@ void delete_area(Area* area);
 void draw_area(Area* area);
 void print_area(Area* area);
 
+typedef struct{
+    int running;
+    Area *area;
+} App;
+
 #endif

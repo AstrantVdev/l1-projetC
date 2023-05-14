@@ -5,20 +5,21 @@
 #include "shape.h"
 
 Pixel *create_pixel(int px, int py){
+    Pixel *pixel = malloc(sizeof(Pixel*));
+    pixel->px = px;
+    pixel->py = py;
 }
 
 void pixel_point(Point* pt, Pixel** pixel, int* nb_pixels)
 {
-    Pixel** pixel_tab = (Pixel**) malloc (sizeof (Pixel*));
-    pixel_tab[0] = create_pixel(pt->pos_x, pt->pos_y);
+    realloc(pixel, sizeof(Pixel*));
 
-    realloc(pixel, sizeof (Pixel*) * (*nb_pixels));
-    pixel[*nb_pixels] = *pixel_tab;
+    pixel[0] = create_pixel(pt->pos_x, pt->pos_y);
     *nb_pixels += 1;
 }
 
 void delete_pixel(Pixel * pixel){
-
+    free(pixel);
 }
 
 
@@ -110,10 +111,11 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
 
 void pixel_line_for_poly(Line* line, Pixel** pixel, int* nb_pixels){
     pixel_line(line, pixel, nb_pixels);
-
     //to delete points that appears twice
     nb_pixels--;
-    realloc(pixel, sizeof (Pixel*) * (*nb_pixels));
+    printf("LLL");
+    printf("%d", *nb_pixels);
+    realloc(pixel, sizeof(Pixel*) * (*nb_pixels));
 }
 
 
@@ -191,8 +193,7 @@ void pixel_polygon(Polygon * poly, Pixel** pixel, int* nb_pixels){
 
 
 Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels){
-    Pixel** pixel = malloc(0);
-
+    Pixel** pixel = (Pixel**) malloc(sizeof(Pixel*));
     switch ( shape->shape_type ) {
         case POINT: {
             pixel_point(shape->ptrShape, pixel, nb_pixels);
@@ -218,12 +219,14 @@ Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels){
             pixel_polygon(shape->ptrShape, pixel, nb_pixels);
             break;
         }
-
         default: {
             printf("pixel.c : Incorrect SHAPE_TYPE to create");
             break;
         }
+
     }
+    return pixel;
+
 }
 
 void delete_pixel_shape(Pixel** pixel, int nb_pixels){

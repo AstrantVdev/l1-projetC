@@ -1,63 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "shape.h"
-#include "interface.h"
 #include "area.h"
 #include "pixel.h"
+#include "commands.h"
 
-typedef struct{
-    int running;
-    int menu;
-    Area *area;
-} App;
-
-App *app;
+App *app= NULL;
 
 int main(){
     app = (App*) malloc(sizeof(App));
+    app->area->nb_shape = 0;
     app->running = 1;
     app->area = create_area(100, 25);
+    app->area->nb_shape = 0;
 
-    app->menu = 1, app->area->nb_shape = 0;
-    Shape** list_shape = (Shape**) calloc(SHAPE_MAX, sizeof(Shape*));
-    while(app->menu){
-        print_accueuil();
-        app->menu = choice(6, 1);
-        switch(app->menu){
-            case 1: {
-                add_shape(list_shape, &app->area->nb_shape);
-                break;
-            }
-            case 2: {
-                print_list_shape(list_shape, app->area->nb_shape);
-                break;
-            }
-            case 3: {
-                print_delete_shape();
-                break;
-            }
-            case 4: {
-                print_draw();
-                break;
-            }
-            case 5: {
-                print_help();
-                break;
-            }
-            case 6:{
-                app->menu = 0;
-                break;
-            }
-            default:{
-                printf("Error\n");
-                break;
-            }
-        }
+    print_area(app->area);
+
+    while(app->running){
+        Command *cmd = create_commande();
+        read_from_stdin(cmd);
+        read_exec_command(cmd);
+        free_cmd(cmd);
     }
-    for(int i = 0; i < app->area->nb_shape; i++){
-        delete_shape(list_shape[i]);
-    }
+
+    delete_area(app->area);
+
     return 0;
 };
 

@@ -4,12 +4,12 @@
 #include <ctype.h>
 
 #include "commands.h"
-#include "main.c"
 #include "utils.h"
+extern App *app;
 
 Command* create_commande(){
     Command *cmd = (Command*) malloc(sizeof(Command));
-    cmd->str_size = 0;
+    cmd->int_size = 0;
     cmd->str_size = 0;
     return cmd;
 }
@@ -60,7 +60,7 @@ int read_exec_command(Command* cmd){
     }else if (strcmp(cmd->name, "help") == 0){
         cmd_help(cmd);
     }else{
-        printf("lol c pas une commande ca");
+        printf("Erreur, %s n'est pas une commande\n", cmd->name);
     }
 
 }
@@ -71,27 +71,31 @@ void read_from_stdin(Command* cmd){
     char c[64];
     fgets(c, 64, stdin);
 
+    char *newline = strchr( c, '\n' );
+    if ( newline ) *newline = 0;
+
     int name = 1;
     char *arg = NULL;
     for(arg = strtok(c, " "); arg != NULL; arg = strtok(NULL," ")){
-        int digit = 0;
+        int digit = 1;
 
         if(name){
             strcpy(cmd->name, arg);
             name = 0;
+            continue;
+
         }
 
-        for(int i = 0; i < strlen(arg); i++){
+        for(int i = 0; arg[i] != 0; i++){
             if(isalpha(arg[i])){
                 digit = 0;
                 break;
             }
 
-            digit += (int) c*10^i;
-
         }
 
         if(digit){
+            digit = atoi(arg);
             add_int_param(cmd, digit);
         }else{
             add_str_param(cmd, arg);
@@ -104,50 +108,40 @@ void read_from_stdin(Command* cmd){
 
 
 void cmd_clear(Command* cmd){
-    erase_area(app->area);
     clear_area(app->area);
 
     jump_page();
-    printf("Les shapes ont été détruites avec succès :d");
+    printf("Les shapes ont ete detruites avec succes :d\n");
 }
 
 void cmd_exit(Command* cmd){
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez fermé l'application avec succès :D");
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez ferme l'app avec succes :D\n");
     app->running = 0;
 }
 
 void cmd_point(Command* cmd){
+
     if(cmd->int_size != 2){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    point x y");
+        printf("Erreur, cette commande est de la forme :    point x y\n");
         return;
     }
 
     int x = cmd->int_params[0];
     int y = cmd->int_params[1];
 
-    if(x > app->area->width){
-        printf("Erreur, x: %d est supérieur à la largeur de la planche, %d", x, app->area->width);
-        return;
-    }
-
-    if(x > app->area->height){
-        printf("Erreur, y: %d est supérieur à la hauteur de la planche, %d", y, app->area->height);
-        return;
-    }
-
     Shape *point = create_point_shape(x, y);
     add_shape_to_area(app->area, point);
 
     jump_page();
-    printf("Le point a été créé avec succès uwu");
+    printf("Le point a ete cree avec succes uwu\n");
 }
 
 void cmd_line(Command* cmd){
 
     if(cmd->int_size != 4){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    line x1 y1 x2 y2");
+        printf("Erreur, cette commande est de la forme :    line x1 y1 x2 y2\n");
         return;
     }
 
@@ -160,13 +154,13 @@ void cmd_line(Command* cmd){
     add_shape_to_area(app->area, line);
 
     jump_page();
-    printf("La ligne a été créé avec succès ;3");
+    printf("La ligne a ete cree avec succes ;3");
 }
 
 void cmd_circle(Command* cmd){
     if(cmd->int_size != 3){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    circle x y radius");
+        printf("Erreur, cette commande est de la forme :    circle x y radius\n");
         return;
     }
 
@@ -178,13 +172,13 @@ void cmd_circle(Command* cmd){
     add_shape_to_area(app->area, circle);
 
     jump_page();
-    printf("Le cercle a été créé avec succès o-o");
+    printf("Le cercle a ete cree avec succes o-o\n");
 }
 
 void cmd_square(Command* cmd){
     if(cmd->int_size != 3){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    square x y length");
+        printf("Erreur, cette commande est de la forme :    square x y length\n");
         return;
     }
 
@@ -196,13 +190,13 @@ void cmd_square(Command* cmd){
     add_shape_to_area(app->area, square);
 
     jump_page();
-    printf("Le carré a été créé avec succès a_a");
+    printf("Le carre a ete cree avec succes a_a\n");
 }
 
 void cmd_rectangle(Command* cmd){
     if(cmd->int_size != 4){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    rectangle x y width height");
+        printf("Erreur, cette commande est de la forme :    rectangle x y width height\n");
         return;
     }
 
@@ -211,25 +205,23 @@ void cmd_rectangle(Command* cmd){
     int width = cmd->int_params[2];
     int length = cmd->int_params[3];
 
-    Shape *rect = create_rectangle_shape(width, length);
+    Shape *rect = create_rectangle_shape(x, y, width, length);
     add_shape_to_area(app->area, rect);
-
+    
     jump_page();
-    printf("Le rectangle a été créé avec succès ;)");
+    printf("Le rectangle a ete cree avec succes ;)\n");
 }
 
 void cmd_polygon(Command* cmd){
     if(cmd->int_size < 6){
         jump_page();
-        printf("Erreur, cette commande est de la forme :    polygon x1 y1 x2 y2 x3 y3 ...");
-        return;
     }
 
     Shape *poly = create_polygon_shape(cmd->int_params, cmd->int_size);
     add_shape_to_area(app->area, poly);
 
     jump_page();
-    printf("Le polygone a été créé avec succès a_a");
+    printf("Le polygone a ete cree avec succes a_a\n");
 }
 
 void cmd_plot(Command* cmd){
@@ -240,7 +232,7 @@ void cmd_plot(Command* cmd){
 }
 
 void cmd_list(Command* cmd){
-    printf("Listes des shapes :");
+    printf("Listes des shapes :\n");
     for(int i = 0; i < app->area->nb_shape; i++){
         print_shape(app->area->shapes[i]);
     }
@@ -248,12 +240,37 @@ void cmd_list(Command* cmd){
 
 void cmd_delete(Command* cmd){
 
+    if(cmd->str_size != 1){
+        jump_page();
+        printf("Erreur, cette commande est de la forme :    delete id\n");
+        return;
+    }
+
+    for(int i = 0; i < app->area->nb_shape; i++){
+        print_shape(app->area->shapes[i]);
+    }
+
 }
 
 void cmd_erase(Command* cmd){
-
+    erase_area(app->area);
 }
 
 void cmd_help(Command* cmd){
+    printf("- clear : effacer l'ecran\n"
+           "- exit : quitter le programme\n"
+           "- point x y : ajouter un point\n"
+           "- line x1 y1 x2 y2 : ajouter un segment reliant deux points (x1, y1) et (x2, y2)\n"
+           "- circle x y radius : ajouter un cercle de centre (x, y) et de rayon radius\n"
+           "- square x y length : ajouter un carre dont le coin superieur gauche est (x, y) et de cote length.\n"
+           "- rectangle x y width height : ajouter un rectangle dont le coin superieur gauche est (x, y), de\n"
+           "largeur width et de longueur height\n"
+           "- polygon x1 y1 x2 y2 x3 y3 ... ... : ajouter un polygone avec la liste des points donnes\n"
+           "- plot : rafraichir l'ecran pour afficher toutes les formes geometriques de l'image (en fonction des\n"
+           "règles d’affichage)\n"
+           "- list : afficher la liste de l’ensemble des formes geometriques qui composent l'image ainsi que\n"
+           "toutes leurs informations\n"
+           "- delete id : supprimer une forme a partir de son identifiant id.\n"
+           "- erase : supprimer toutes les formes d'une image.\n");
 
 }

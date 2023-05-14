@@ -1,6 +1,8 @@
 #ifndef L1_PROJECT_COMMANDS_H
 #define L1_PROJECT_COMMANDS_H
 
+#include "area.h"
+
 typedef struct {
     char name[50];
     int int_size;
