@@ -9,9 +9,8 @@ App *app= NULL;
 
 int main(){
     app = (App*) malloc(sizeof(App));
-    app->area->nb_shape = 0;
-    app->running = 1;
     app->area = create_area(100, 25);
+    app->running = 1;
     app->area->nb_shape = 0;
 
     print_area(app->area);

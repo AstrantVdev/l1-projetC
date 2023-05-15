@@ -12,7 +12,7 @@ Pixel *create_pixel(int px, int py);
 void pixel_point(Point* shape, Pixel** pixel, int* nb_pixels);
 void delete_pixel(Pixel * pixel);
 
-void pixel_line(Line* line, Pixel** pixel, int* nb_pixels);
+void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels);
 void pixel_line_for_poly(Line* line, Pixel** pixel, int* nb_pixels);
 
 void pixel_square(Square * shape, Pixel** pixel, int* nb_pixels);

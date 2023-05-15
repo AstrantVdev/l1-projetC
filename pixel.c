@@ -5,17 +5,19 @@
 #include "shape.h"
 
 Pixel *create_pixel(int px, int py){
-    Pixel *pixel = (Pixel*) malloc(sizeof(Pixel*));
+    Pixel *pixel = (Pixel*) malloc(sizeof(Pixel));
     pixel->px = px;
     pixel->py = py;
+    return pixel;
 }
 
-void pixel_point(Point* pt, Pixel** pixel, int* nb_pixels)
+void pixel_point(Point* pt, Pixel** pixel_tab, int* nb_pixels)
 {
+    printf("size : %d\n", *nb_pixels);
+    pixel_tab[*nb_pixels] = create_pixel(pt->pos_x, pt->pos_y);
+    printf("%p\n", pixel_tab[*nb_pixels]);
+
     *nb_pixels += 1;
-    pixel = (Pixel**) realloc(pixel, (*nb_pixels)*sizeof(Pixel*));
-    pixel[*nb_pixels-1] = create_pixel(pt->pos_x, pt->pos_y);
-    printf("%p/", pixel);
 }
 
 void delete_pixel(Pixel * pixel){
@@ -24,7 +26,7 @@ void delete_pixel(Pixel * pixel){
 
 
 
-void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
+void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
     int xa = line->p1->pos_x,
     xb = line->p2->pos_x,
     ya = line->p1->pos_y,
@@ -68,13 +70,15 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
         segments[i] = segments[i]+cumuls[i];
     }
 
+    *pixel = (Pixel**) realloc(*pixel, sizeof (Pixel*)*nb_segs*nb_segs);
+
     if(dx > dy){
 
         for(int  i = 0; i < nb_segs; i++){
 
             for(int j = 0; j < segments[i]; j++ ){
                 Point pt = { xb, yb };
-                pixel_point(&pt, pixel, nb_pixels);
+                pixel_point(&pt, *pixel, nb_pixels);
                 xb++;
             }
             yb++;
@@ -88,7 +92,7 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
 
             for(int j = 0; j < segments[i]; j++){
                 Point pt = { xb, yb };
-                pixel_point(&pt, pixel, nb_pixels);
+                pixel_point(&pt, *pixel, nb_pixels);
                 yb++;
             }
             xb++;
@@ -185,14 +189,15 @@ void pixel_polygon(Polygon * poly, Pixel** pixel, int* nb_pixels){
 
 
 Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels){
-    Pixel** pixel = (Pixel**) malloc(sizeof(Pixel*));
+    Pixel** pixel = (Pixel**) malloc(sizeof(Pixel**));
+
     switch ( shape->shape_type ) {
         case POINT: {
             pixel_point(shape->ptrShape, pixel, nb_pixels);
             break;
         }
         case LINE: {
-            pixel_line(shape->ptrShape, pixel, nb_pixels);
+            pixel_line(shape->ptrShape, &pixel, nb_pixels);
             break;
         }
         case SQUARE: {

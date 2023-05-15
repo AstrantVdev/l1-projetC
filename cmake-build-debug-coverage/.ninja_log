@@ -1,0 +1,10 @@
+# ninja log v5
+6	154	7058952443052511	CMakeFiles/l1_projetC.dir/id.c.obj	7e875f5e46c7ba5f
+27	208	7058952443621282	CMakeFiles/l1_projetC.dir/main.c.obj	2161c181a961afb6
+21	212	7058952443631162	CMakeFiles/l1_projetC.dir/area.c.obj	5a22f2d8e197bb4b
+1	217	7058952443671148	CMakeFiles/l1_projetC.dir/shape.c.obj	d099f7fd41e3123e
+41	230	7058952443847715	CMakeFiles/l1_projetC.dir/utils.c.obj	957ec6a1e37a6822
+11	236	7058952443953436	CMakeFiles/l1_projetC.dir/pixel.c.obj	1a36c9b85d0376b1
+15	244	7058952444075216	CMakeFiles/l1_projetC.dir/interface.c.obj	3c91ff0932b0cd7e
+33	252	7058952444150429	CMakeFiles/l1_projetC.dir/commands.c.obj	9ba3bc1e6faa72dd
+253	387	7058952445451889	l1_projetC.exe	487b33190bd72b30

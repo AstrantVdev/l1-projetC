@@ -10,7 +10,7 @@ Area* create_area(unsigned int width, unsigned int height){
     area->width = width;
     area->height = height;
     area->mat = (BOOL**) malloc(height*sizeof(BOOL*));
-    for(int i = 0; i < width; i++){
+    for(int i = 0; i < height; i++){
         area->mat[i] = (BOOL*) malloc(width*sizeof(BOOL));
     }
     clear_area(area);
@@ -52,10 +52,9 @@ void draw_area(Area* area){
     for(int i = 0; i < area->nb_shape; i++){
         int nb_pixels = 0;
         Pixel** list_pixel = create_shape_to_pixel(area->shapes[i], &nb_pixels);
+
         for(int j = 0; j < nb_pixels; j++){
-            printf("%d|", list_pixel[j]->px);
             area->mat[list_pixel[j]->px][list_pixel[j]->py] = 1;
-            free(list_pixel[j]);
         }
         free(list_pixel);
     }
