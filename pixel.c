@@ -5,17 +5,17 @@
 #include "shape.h"
 
 Pixel *create_pixel(int px, int py){
-    Pixel *pixel = malloc(sizeof(Pixel*));
+    Pixel *pixel = (Pixel*) malloc(sizeof(Pixel*));
     pixel->px = px;
     pixel->py = py;
 }
 
 void pixel_point(Point* pt, Pixel** pixel, int* nb_pixels)
 {
-    realloc(pixel, sizeof(Pixel*));
-
-    pixel[0] = create_pixel(pt->pos_x, pt->pos_y);
     *nb_pixels += 1;
+    pixel = (Pixel**) realloc(pixel, (*nb_pixels)*sizeof(Pixel*));
+    pixel[*nb_pixels-1] = create_pixel(pt->pos_x, pt->pos_y);
+    printf("%p/", pixel);
 }
 
 void delete_pixel(Pixel * pixel){
@@ -45,8 +45,7 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
 
     int dmin = dx,
     dmax = dy;
-
-    if(dx > dy){
+    if(dmin > dmax){
         dmin = dy;
         dmax = dx;
     }
@@ -65,7 +64,7 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
     cumuls[0]=0;
     for (int i = 1; i < nb_segs;i++)
     {
-        cumuls[i] = ((i*restants)%(dmin+1) < ((i-1)*restants)%(dmin+1));
+        cumuls[i] = ((i+1)*restants)%(dmin+1) < (i*restants)%(dmin+1);
         segments[i] = segments[i]+cumuls[i];
     }
 
@@ -74,13 +73,11 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
         for(int  i = 0; i < nb_segs; i++){
 
             for(int j = 0; j < segments[i]; j++ ){
-                Point pt = { pt.pos_x, pt.pos_y };
-
+                Point pt = { xb, yb };
                 pixel_point(&pt, pixel, nb_pixels);
-                xa++;
+                xb++;
             }
-
-            ya--;
+            yb++;
 
         }
 
@@ -90,22 +87,17 @@ void pixel_line(Line* line, Pixel** pixel, int* nb_pixels){
         for(int  i = 0; i < nb_segs; i++){
 
             for(int j = 0; j < segments[i]; j++){
-                Point pt = { pt.pos_x, pt.pos_y };
-
+                Point pt = { xb, yb };
                 pixel_point(&pt, pixel, nb_pixels);
-                ya--;
+                yb++;
             }
-
-            xa++;
+            xb++;
 
         }
 
     }
 
     free(segments);
-
-    nb_pixels--;
-    realloc(pixel, sizeof (Pixel*) * (*nb_pixels));
 
 }
 

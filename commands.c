@@ -154,7 +154,7 @@ void cmd_line(Command* cmd){
     add_shape_to_area(app->area, line);
 
     jump_page();
-    printf("La ligne a ete cree avec succes ;3");
+    printf("La ligne a ete cree avec succes ;3\n");
 }
 
 void cmd_circle(Command* cmd){

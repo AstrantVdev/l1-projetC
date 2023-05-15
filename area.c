@@ -48,17 +48,16 @@ void delete_area(Area* area){
 }
 
 void draw_area(Area* area){
-    int nb_pixels = 0;
 
     for(int i = 0; i < area->nb_shape; i++){
+        int nb_pixels = 0;
         Pixel** list_pixel = create_shape_to_pixel(area->shapes[i], &nb_pixels);
         for(int j = 0; j < nb_pixels; j++){
-            printf("%d%d|", list_pixel[j]->px, list_pixel[j]->py);
+            printf("%d|", list_pixel[j]->px);
             area->mat[list_pixel[j]->px][list_pixel[j]->py] = 1;
             free(list_pixel[j]);
         }
         free(list_pixel);
-        nb_pixels = 0;
     }
 
 }
@@ -66,7 +65,7 @@ void draw_area(Area* area){
 void print_area(Area* area){
     for(int i = 0; i < area->height; i++){
         for(int j = 0; j < area->width; j++){
-            if (area->mat[i][j] == 0) printf(" ");
+            if (area->mat[i][j] == 0) printf("-");
             else printf("o");
         }
         printf("\n");
