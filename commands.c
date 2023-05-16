@@ -31,7 +31,7 @@ void free_cmd(Command* cmd){
     free(cmd);
 }
 
-int read_exec_command(Command* cmd){
+void read_exec_command(Command* cmd){
 
     if (strcmp(cmd->name, "clear") == 0){
         cmd_clear(cmd);
