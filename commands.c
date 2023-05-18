@@ -33,6 +33,7 @@ void free_cmd(Command* cmd){
 
 void read_exec_command(Command* cmd){
 
+    printf("Commande : %s, %d\n", cmd->name, strcmp(cmd->name, "help"));
     if (strcmp(cmd->name, "clear") == 0){
         cmd_clear(cmd);
     }else if (strcmp(cmd->name, "exit") == 0){
@@ -66,13 +67,19 @@ void read_exec_command(Command* cmd){
 }
 
 void read_from_stdin(Command* cmd){
-    printf("Entrez une commande :\n> ");
+    printf("\n>> ");
 
     char c[64];
     fgets(c, 64, stdin);
 
-    char *newline = strchr( c, '\n' );
-    if ( newline ) *newline = 0;
+    for(int i = 0; c[i] != '\0'; i++){
+        if(c[i] == '\n'){
+            c[i] = '\0';
+            break;
+        }
+    }
+
+    strchr( c, '\n' );
 
     int name = 1;
     char *arg = NULL;
@@ -102,7 +109,6 @@ void read_from_stdin(Command* cmd){
         }
 
     }
-
 }
 
 
@@ -215,9 +221,16 @@ void cmd_rectangle(Command* cmd){
 void cmd_polygon(Command* cmd){
     if(cmd->int_size < 6){
         jump_page();
+        printf("Erreur, cette commande doit contenir au minimum trois points en coordonnées\n");
+        return;
+    }
+    if (cmd->int_size % 2 != 0){
+        jump_page();
+        printf("Erreur, cette commande est de la forme :    polygon x1 y1 x2 y2 ... xn yn\n");
+        return;
     }
 
-    Shape *poly = create_polygon_shape(cmd->int_params, cmd->int_size);
+    Shape *poly = create_polygon_shape(cmd->int_params, cmd->int_size/2);
     add_shape_to_area(app->area, poly);
 
     jump_page();
@@ -232,6 +245,10 @@ void cmd_plot(Command* cmd){
 }
 
 void cmd_list(Command* cmd){
+    if (app->area->nb_shape == 0){
+        printf("Il n'y a pas de shapes dans l'area :(\n");
+        return;
+    }
     printf("Listes des shapes :\n");
     for(int i = 0; i < app->area->nb_shape; i++){
         print_shape(app->area->shapes[i]);
@@ -249,7 +266,13 @@ void cmd_delete(Command* cmd){
     for(int i = 0; i < app->area->nb_shape; i++){
         print_shape(app->area->shapes[i]);
     }
-
+    for(int i = 0; i < app->area->nb_shape; i++) {
+        if (app->area->shapes[i]->id == cmd->int_params[0]) {
+            delete_shape(app->area->shapes[i]);
+            app->area->shapes[i] = NULL;
+            break;
+        }
+    }
 }
 
 void cmd_erase(Command* cmd){
@@ -267,8 +290,8 @@ void cmd_help(Command* cmd){
            "largeur width et de longueur height\n"
            "- polygon x1 y1 x2 y2 x3 y3 ... ... : ajouter un polygone avec la liste des points donnes\n"
            "- plot : rafraichir l'ecran pour afficher toutes les formes geometriques de l'image (en fonction des\n"
-           "règles d’affichage)\n"
-           "- list : afficher la liste de l’ensemble des formes geometriques qui composent l'image ainsi que\n"
+           "regles d'affichage)\n"
+           "- list : afficher la liste de l'ensemble des formes geometriques qui composent l'image ainsi que\n"
            "toutes leurs informations\n"
            "- delete id : supprimer une forme a partir de son identifiant id.\n"
            "- erase : supprimer toutes les formes d'une image.\n");

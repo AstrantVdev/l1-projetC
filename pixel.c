@@ -17,7 +17,7 @@ void pixel_point(Point* pt, Pixel** pixel_tab, int* nb_pixels)
     pixel_tab[*nb_pixels] = create_pixel(pt->pos_x, pt->pos_y);
     printf("%p\n", pixel_tab[*nb_pixels]);
 
-    *nb_pixels += 1;
+    (*nb_pixels)++;
 }
 
 void delete_pixel(Pixel * pixel){
@@ -28,27 +28,26 @@ void delete_pixel(Pixel * pixel){
 
 void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
     int xa = line->p1->pos_x,
-    xb = line->p2->pos_x,
-    ya = line->p1->pos_y,
-    yb = line->p2->pos_y;
+            xb = line->p2->pos_x,
+            ya = line->p1->pos_y,
+            yb = line->p2->pos_y;
 
-    if (xa < xb){
+    if (xa > xb){
         xb = xa;
         xa = line->p2->pos_x;
-    }
-
-    if(ya < yb){
         yb = ya;
         ya = line->p2->pos_y;
     }
 
-    int dx = xa - xb,
-    dy = -(yb - ya);
+    printf("xa : %d, xb : %d, ya : %d, yb : %d\n", xa, xb, ya, yb);
+
+    int dx = xb - xa,
+            dy = yb - ya;
 
     int dmin = dx,
-    dmax = dy;
+            dmax = abs(dy);
     if(dmin > dmax){
-        dmin = dy;
+        dmin = abs(dy);
         dmax = dx;
     }
 
@@ -72,30 +71,66 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
     *pixel = (Pixel**) realloc(*pixel, sizeof (Pixel*)*nb_segs*nb_segs);
 
-    if(dx > dy){
+    if (dy > 0) {
+        if (dx > dy) {
 
-        for(int  i = 0; i < nb_segs; i++){
+            for (int i = 0; i < nb_segs; i++) {
 
-            for(int j = 0; j < segments[i]; j++ ){
-                Point pt = { xb, yb };
-                pixel_point(&pt, *pixel, nb_pixels);
-                xb++;
+                for (int j = 0; j < segments[i]; j++) {
+                    Point pt = {xa, ya};
+                    printf("dx > dy > 0 ; xa : %d, ya : %d\n", xa, ya);
+                    pixel_point(&pt, *pixel, nb_pixels);
+                    xa++;
+                }
+                ya++;
+
             }
-            yb++;
+
+        } else {
+
+
+            for (int i = 0; i < nb_segs; i++) {
+
+                for (int j = 0; j < segments[i]; j++) {
+                    Point pt = {xa, ya};
+                    printf(" dx < dy > 0 ; xa : %d, ya : %d\n", xa, ya);
+                    pixel_point(&pt, *pixel, nb_pixels);
+                    ya++;
+                }
+                xa++;
+
+            }
 
         }
-
     }else{
+        if (dx > abs(dy)) {
 
+            for (int i = 0; i < nb_segs; i++) {
 
-        for(int  i = 0; i < nb_segs; i++){
+                for (int j = 0; j < segments[i]; j++) {
+                    Point pt = {xa, ya};
+                    printf("dx > dy < 0 ; xa : %d, ya : %d\n", xa, ya);
+                    pixel_point(&pt, *pixel, nb_pixels);
+                    xa++;
+                }
+                ya--;
 
-            for(int j = 0; j < segments[i]; j++){
-                Point pt = { xb, yb };
-                pixel_point(&pt, *pixel, nb_pixels);
-                yb++;
             }
-            xb++;
+
+        } else {
+
+
+            for (int i = 0; i < nb_segs; i++) {
+
+                for (int j = 0; j < segments[i]; j++) {
+                    Point pt = {xa, ya};
+                    printf("dx < dy < 0 ; xa : %d, ya : %d\n", xa, ya);
+                    pixel_point(&pt, *pixel, nb_pixels);
+                    ya--;
+                }
+                xa++;
+
+            }
 
         }
 
@@ -106,9 +141,9 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 }
 
 void pixel_line_for_poly(Line* line, Pixel** pixel, int* nb_pixels){
-    pixel_line(line, pixel, nb_pixels);
+    pixel_line(line, &pixel, nb_pixels);
     //to delete points that appears twice
-    nb_pixels--;
+    //nb_pixels--;
     printf("LLL");
     printf("%d", *nb_pixels);
     realloc(pixel, sizeof(Pixel*) * (*nb_pixels));

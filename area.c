@@ -54,7 +54,7 @@ void draw_area(Area* area){
         Pixel** list_pixel = create_shape_to_pixel(area->shapes[i], &nb_pixels);
 
         for(int j = 0; j < nb_pixels; j++){
-            area->mat[list_pixel[j]->px][list_pixel[j]->py] = 1;
+            area->mat[list_pixel[j]->py][list_pixel[j]->px] = 1;
         }
         free(list_pixel);
     }

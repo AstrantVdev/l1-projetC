@@ -10,10 +10,6 @@
 int choice(int n_options, int character);
 void print_accueuil();
 void print_list_shape(Shape** list_shape, int len);
-void print_delete_shape();
-void print_draw();
-void print_help();
-void add_shape(Shape** list_shape, int* n_shape);
 
 int* ask_points(int nb_points);
 void ask_radius(int* radius);
