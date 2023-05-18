@@ -48,15 +48,17 @@ void delete_area(Area* area){
 }
 
 void draw_area(Area* area){
-
+    int nb_pixels = 0;
     for(int i = 0; i < area->nb_shape; i++){
-        int nb_pixels = 0;
+        nb_pixels = 0;
         Pixel** list_pixel = create_shape_to_pixel(area->shapes[i], &nb_pixels);
 
         for(int j = 0; j < nb_pixels; j++){
             area->mat[list_pixel[j]->py][list_pixel[j]->px] = 1;
         }
-        free(list_pixel);
+        for(int j = 0; j < nb_pixels; j++){
+            delete_pixel(list_pixel[j]);
+        }
     }
 
 }

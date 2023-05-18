@@ -117,7 +117,7 @@ void cmd_clear(Command* cmd){
     clear_area(app->area);
 
     jump_page();
-    printf("Les shapes ont ete detruites avec succes :d\n");
+    printf("L'aire est maintenant vide :d\n");
 }
 
 void cmd_exit(Command* cmd){
