@@ -39,7 +39,7 @@ void erase_area(Area* area){
 
 void delete_area(Area* area){
     erase_area(area);
-    for(int i = 0; i < area->width; i++){
+    for(int i = 0; i < area->height; i++){
         free(area->mat[i]);
     }
     free(area->mat);
@@ -54,7 +54,8 @@ void draw_area(Area* area){
         Pixel** list_pixel = create_shape_to_pixel(area->shapes[i], &nb_pixels);
 
         for(int j = 0; j < nb_pixels; j++){
-            area->mat[list_pixel[j]->py][list_pixel[j]->px] = 1;
+            if ((list_pixel[j]->px >= 0) && (list_pixel[j]->px < area->width) && (list_pixel[j]->py >= 0) && (list_pixel[j]->py < area->height))
+                area->mat[list_pixel[j]->py][list_pixel[j]->px] = 1;
         }
         for(int j = 0; j < nb_pixels; j++){
             delete_pixel(list_pixel[j]);
