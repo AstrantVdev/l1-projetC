@@ -257,7 +257,7 @@ void cmd_list(Command* cmd){
 
 void cmd_delete(Command* cmd){
 
-    if(cmd->str_size != 1){
+    if(cmd->int_size != 1){
         jump_page();
         printf("Erreur, cette commande est de la forme :    delete id\n");
         return;
@@ -269,6 +269,7 @@ void cmd_delete(Command* cmd){
     for(int i = 0; i < app->area->nb_shape; i++) {
         if (app->area->shapes[i]->id == cmd->int_params[0]) {
             delete_shape(app->area->shapes[i]);
+            app->area->nb_shape--;
             app->area->shapes[i] = NULL;
             break;
         }
