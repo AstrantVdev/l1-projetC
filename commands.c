@@ -1,13 +1,27 @@
+/*
+    l1-project C : Dessin vectoriel
+           --------------
+           | COMMANDS.C |
+           --------------
+
+Contient l'ensemble des fonctions permettant de gérer, d'exécuter
+et de lire les commandes.
+
+Réalisé par DELHAYE Guillaume et PORTAL Sacha
+
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 
 #include "commands.h"
-#include "utils.h"
 extern App *app;
 
 Command* create_commande(){
+    /* Crée une nouvelle commande */
+
     Command *cmd = (Command*) malloc(sizeof(Command));
     cmd->int_size = 0;
     cmd->str_size = 0;
@@ -15,16 +29,20 @@ Command* create_commande(){
 }
 
 void add_str_param(Command* cmd, char* p){
-    cmd->str_params[cmd->str_size] = p;
-    cmd->str_size++;
+    /* Ajoute une chaine de caractère en paramètre d'une commande. */
+
+    cmd->str_params[cmd->str_size++] = p;
 }
 
 void add_int_param(Command* cmd, int p){
-    cmd->int_params[cmd->int_size] = p;
-    cmd->int_size++;
+    /* Ajoute un entier en paramètre d'une commande. */
+
+    cmd->int_params[cmd->int_size++] = p;
 }
 
 void free_cmd(Command* cmd){
+    /* Libère la zone mémoire allouée pour une commande. */
+
     for(int i = 0; i < cmd->str_size; i++){
         free(cmd->str_params[i]);
     }
@@ -32,12 +50,13 @@ void free_cmd(Command* cmd){
 }
 
 void read_exec_command(Command* cmd){
+    /* Exécute une commande. */
 
     printf("Commande : %s, %d\n", cmd->name, strcmp(cmd->name, "help"));
     if (strcmp(cmd->name, "clear") == 0){
-        cmd_clear(cmd);
+        cmd_clear();
     }else if (strcmp(cmd->name, "exit") == 0){
-        cmd_exit(cmd);
+        cmd_exit();
     }else if (strcmp(cmd->name, "point") == 0){
         cmd_point(cmd);
     }else if (strcmp(cmd->name, "line") == 0){
@@ -51,15 +70,15 @@ void read_exec_command(Command* cmd){
     }else if (strcmp(cmd->name, "polygon") == 0){
         cmd_polygon(cmd);
     }else if (strcmp(cmd->name, "plot") == 0){
-        cmd_plot(cmd);
+        cmd_plot();
     }else if (strcmp(cmd->name, "list") == 0){
-        cmd_list(cmd);
+        cmd_list();
     }else if (strcmp(cmd->name, "delete") == 0){
         cmd_delete(cmd);
     }else if (strcmp(cmd->name, "erase") == 0){
-        cmd_erase(cmd);
+        cmd_erase();
     }else if (strcmp(cmd->name, "help") == 0){
-        cmd_help(cmd);
+        cmd_help();
     }else{
         printf("Erreur, %s n'est pas une commande\n", cmd->name);
     }
@@ -67,8 +86,11 @@ void read_exec_command(Command* cmd){
 }
 
 void read_from_stdin(Command* cmd){
+    /* Lit une commande et la liste de ses paramètres. */
+
     printf("\n>> ");
 
+    // 64 est la taille maximale d'une commande
     char c[64];
     fgets(c, 64, stdin);
 
@@ -79,13 +101,18 @@ void read_from_stdin(Command* cmd){
         }
     }
 
-    strchr( c, '\n' );
-
     int name = 1;
     char *arg = NULL;
+
+    // strtok permet de séparer une chaine de caractère en fonction d'un délimiteur
+    //      - A la première occurrence, on rentre en paramètre la chaine de caractères, et
+    //      la fonction renvoie le premier mot de la chaine.
+    //      - A chaque appel suivant, on rentre NULL en paramètre, et la fonction renvoie
+    //      le mot suivant de la chaine.
     for(arg = strtok(c, " "); arg != NULL; arg = strtok(NULL," ")){
         int digit = 1;
 
+        // Premier mot de la chaine : nom de la commande
         if(name){
             strcpy(cmd->name, arg);
             name = 0;
@@ -93,6 +120,10 @@ void read_from_stdin(Command* cmd){
 
         }
 
+        // Appels suivant : paramètres de la commande
+
+
+        // On vérifie si le paramètre est un entier ou une chaine de caractères
         for(int i = 0; arg[i] != 0; i++){
             if(isalpha(arg[i])){
                 digit = 0;
@@ -111,22 +142,35 @@ void read_from_stdin(Command* cmd){
     }
 }
 
+void jump_page(){
+    /* Permet de sauter des lignes pour "effacer" la console. */
+
+    for(int i = 0; i < 16; i++){
+        printf("\n");
+    }
+}
 
 
-void cmd_clear(Command* cmd){
+void cmd_clear(){
+    /* Vide l'aire de dessin. */
+
     clear_area(app->area);
 
     jump_page();
     printf("L'aire est maintenant vide :d\n");
 }
 
-void cmd_exit(Command* cmd){
+void cmd_exit(){
+    /* Ferme l'application. */
+
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez ferme l'app avec succes :D\n");
     app->running = 0;
 }
 
 void cmd_point(Command* cmd){
+    /* Crée un point. */
 
+    // Vérification du nombre de coordonnées en paramètres
     if(cmd->int_size != 2){
         jump_page();
         printf("Erreur, cette commande est de la forme :    point x y\n");
@@ -136,15 +180,18 @@ void cmd_point(Command* cmd){
     int x = cmd->int_params[0];
     int y = cmd->int_params[1];
 
+    // Création du point
     Shape *point = create_point_shape(x, y);
     add_shape_to_area(app->area, point);
 
     jump_page();
-    printf("Le point a ete cree avec succes uwu\n");
+    printf("Le point a ete cree avec succes\n");
 }
 
 void cmd_line(Command* cmd){
+    /* Crée une ligne. */
 
+    // Vérification du nombre de coordonnées en paramètres
     if(cmd->int_size != 4){
         jump_page();
         printf("Erreur, cette commande est de la forme :    line x1 y1 x2 y2\n");
@@ -156,14 +203,18 @@ void cmd_line(Command* cmd){
     int x2 = cmd->int_params[2];
     int y2 = cmd->int_params[3];
 
+    // Création de la ligne
     Shape *line = create_line_shape(x1, y1, x2, y2);
     add_shape_to_area(app->area, line);
 
     jump_page();
-    printf("La ligne a ete cree avec succes ;3\n");
+    printf("La ligne a ete cree avec succes\n");
 }
 
 void cmd_circle(Command* cmd){
+    /* Crée un cercle. */
+
+    // Vérification du nombre de paramètres
     if(cmd->int_size != 3){
         jump_page();
         printf("Erreur, cette commande est de la forme :    circle x y radius\n");
@@ -174,14 +225,18 @@ void cmd_circle(Command* cmd){
     int y = cmd->int_params[1];
     int radius = cmd->int_params[2];
 
+    // Création du cercle
     Shape *circle = create_circle_shape(x, y, radius);
     add_shape_to_area(app->area, circle);
 
     jump_page();
-    printf("Le cercle a ete cree avec succes o-o\n");
+    printf("Le cercle a ete cree avec succes\n");
 }
 
 void cmd_square(Command* cmd){
+    /* Crée un carré. */
+
+    // Vérification du nombre de paramètres
     if(cmd->int_size != 3){
         jump_page();
         printf("Erreur, cette commande est de la forme :    square x y length\n");
@@ -192,14 +247,18 @@ void cmd_square(Command* cmd){
     int y = cmd->int_params[1];
     int length = cmd->int_params[2];
 
+    // Création du carré
     Shape *square = create_square_shape(x, y, length);
     add_shape_to_area(app->area, square);
 
     jump_page();
-    printf("Le carre a ete cree avec succes a_a\n");
+    printf("Le carre a ete cree avec succes\n");
 }
 
 void cmd_rectangle(Command* cmd){
+    /* Crée un rectangle. */
+
+    // Vérification du nombre de paramètres
     if(cmd->int_size != 4){
         jump_page();
         printf("Erreur, cette commande est de la forme :    rectangle x y width height\n");
@@ -211,6 +270,7 @@ void cmd_rectangle(Command* cmd){
     int width = cmd->int_params[2];
     int length = cmd->int_params[3];
 
+    // Création du rectangle
     Shape *rect = create_rectangle_shape(x, y, width, length);
     add_shape_to_area(app->area, rect);
     
@@ -219,17 +279,22 @@ void cmd_rectangle(Command* cmd){
 }
 
 void cmd_polygon(Command* cmd){
+
+    // Minimum 3 points
     if(cmd->int_size < 6){
         jump_page();
         printf("Erreur, cette commande doit contenir au minimum trois points en coordonnées\n");
         return;
     }
+
+    // Empêche un nombre impair de coordonnées
     if (cmd->int_size % 2 != 0){
         jump_page();
         printf("Erreur, cette commande est de la forme :    polygon x1 y1 x2 y2 ... xn yn\n");
         return;
     }
 
+    // Création du polygone
     Shape *poly = create_polygon_shape(cmd->int_params, cmd->int_size/2);
     add_shape_to_area(app->area, poly);
 
@@ -237,14 +302,19 @@ void cmd_polygon(Command* cmd){
     printf("Le polygone a ete cree avec succes a_a\n");
 }
 
-void cmd_plot(Command* cmd){
+void cmd_plot(){
+    /* Affiche l'aire. */
+
     jump_page();
 
     draw_area(app->area);
     print_area(app->area);
 }
 
-void cmd_list(Command* cmd){
+void cmd_list(){
+    /* Affiche la liste des formes. */
+
+    // Ne prend aucun paramètre
     if (app->area->nb_shape == 0){
         printf("Il n'y a pas de shapes dans l'area :(\n");
         return;
@@ -256,16 +326,15 @@ void cmd_list(Command* cmd){
 }
 
 void cmd_delete(Command* cmd){
+    /* Supprime une forme. */
 
+    // Ne prend aucun paramètre
     if(cmd->int_size != 1){
         jump_page();
         printf("Erreur, cette commande est de la forme :    delete id\n");
         return;
     }
 
-    for(int i = 0; i < app->area->nb_shape; i++){
-        print_shape(app->area->shapes[i]);
-    }
     for(int i = 0; i < app->area->nb_shape; i++) {
         if (app->area->shapes[i]->id == cmd->int_params[0]) {
             delete_shape(app->area->shapes[i]);
@@ -276,11 +345,14 @@ void cmd_delete(Command* cmd){
     }
 }
 
-void cmd_erase(Command* cmd){
+void cmd_erase(){
+    /* Efface l'aire. */
     erase_area(app->area);
 }
 
-void cmd_help(Command* cmd){
+void cmd_help(){
+    /* Affiche l'ensemble des commandes disponibles et le nombre de paramètres associés. */
+
     printf("- clear : effacer l'ecran\n"
            "- exit : quitter le programme\n"
            "- point x y : ajouter un point\n"

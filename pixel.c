@@ -1,3 +1,16 @@
+/*
+    l1-project C : Dessin vectoriel
+           -----------
+           | PIXEL.C |
+           -----------
+
+Contient toutes les fonctions liés à la création des pixels et le
+traçage des formes en pixels.
+
+Réalisé par DELHAYE Guillaume et PORTAL Sacha
+
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -5,29 +18,38 @@
 #include "shape.h"
 
 Pixel *create_pixel(int px, int py){
+    /* Créé et retourne un pixel. */
+
     Pixel *pixel = (Pixel*) malloc(sizeof(Pixel));
     pixel->px = px;
     pixel->py = py;
     return pixel;
 }
 
-void pixel_point(Point* pt, Pixel** pixel_tab, int* nb_pixels)
-{
+void pixel_point(Point* pt, Pixel** pixel_tab, int* nb_pixels){
+    /* Rajoute un pixel dans liste des pixels. */
+
     pixel_tab[(*nb_pixels)++] = create_pixel(pt->pos_x, pt->pos_y);
 }
 
 void delete_pixel(Pixel *pixel){
+    /* Supprime un pixel. */
+
     free(pixel);
 }
 
 
 
 void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
-    int xa = line->p1->pos_x,
-            xb = line->p2->pos_x,
-            ya = line->p1->pos_y,
-            yb = line->p2->pos_y;
+    /* Créé les pixels nécessaire au traçage d'une ligne.
+     * Ajoute les pixels dans la liste des pixels donnée en paramètres. */
 
+    int xa = line->p1->pos_x,
+    xb = line->p2->pos_x,
+    ya = line->p1->pos_y,
+    yb = line->p2->pos_y;
+
+    // On veut que xa < xb
     if (xa > xb){
         xb = xa;
         xa = line->p2->pos_x;
@@ -63,9 +85,13 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
         segments[i] = segments[i]+cumuls[i];
     }
 
+    // On réalloue la mémoire avec le bon nombre de pixels
     *pixel = (Pixel**) realloc(*pixel, sizeof (Pixel*)*( *nb_pixels + len_seg*nb_segs + restants));
 
+    // Traçage vers le bas
     if (dy >= 0) {
+
+        // Plus de déplacement vers la droite que vers le bas
         if (dx > dy) {
 
             for (int i = 0; i < nb_segs; i++) {
@@ -79,6 +105,7 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
             }
 
+        // Plus de déplacement vers le bas que vers la droite
         } else {
 
 
@@ -94,7 +121,10 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
             }
 
         }
+    // Traçage vers le haut
     }else{
+
+        // Plus de déplacement vers la droite que vers le bas
         if (dx > abs(dy)) {
 
             for (int i = 0; i < nb_segs; i++) {
@@ -108,6 +138,7 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
             }
 
+        // Plus de déplacement vers le bas que vers la droite
         } else {
 
 
@@ -126,16 +157,17 @@ void pixel_line(Line* line, Pixel*** pixel, int* nb_pixels){
 
     }
 
+    // On libère la mémoire
     free(segments);
+    free(cumuls);
 
-}
-
-void pixel_line_for_poly(Line* line, Pixel*** pixel, int* nb_pixels){
-    pixel_line(line, pixel, nb_pixels);
 }
 
 
 void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){
+    /* Créé les pixels nécessaire au traçage d'un cercle.
+     * Ajoute les pixels dans la liste des pixels donnée en paramètres. */
+
     int x = 0,
     y = circle->radius,
     d = circle->radius - 1;
@@ -144,6 +176,7 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){
     point_y = circle->p->pos_y;
 
     while(y >= x) {
+        // On ajoute 8 cases au tableau de pixels à chaque boucle.
         *pixel = realloc(*pixel, sizeof(Pixel *) * (*nb_pixels + 8));
         (*pixel)[(*nb_pixels)++] = create_pixel(point_x + x, point_y + y);
         (*pixel)[(*nb_pixels)++] = create_pixel(point_x + y, point_y + x);
@@ -171,27 +204,33 @@ void pixel_circle(Circle * circle, Pixel*** pixel, int* nb_pixels){
 }
 
 void pixel_square(Square * sqr, Pixel*** pixel, int* nb_pixels){
+    /* Créé les pixels nécessaire au traçage d'un carré.
+     * Ajoute les pixels dans la liste des pixels donnée en paramètres. */
+
     Point *p1 = create_point(sqr->p->pos_x, sqr->p->pos_y);
     Point *p2 = create_point(sqr->p->pos_x + sqr->length - 1, sqr->p->pos_y);
     Point *p3 = create_point(sqr->p->pos_x, sqr->p->pos_y  + sqr->length - 1);
     Point *p4 = create_point(sqr->p->pos_x + sqr->length - 1, sqr->p->pos_y + sqr->length - 1);
 
+    // Traçage des 4 lignes du carré
 
     Line* line = create_line(p1, p2);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p2, p4);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p4, p3);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p3, p1);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
+
+    // Libération des points
 
     delete_point(p1);
     delete_point(p2);
@@ -201,26 +240,33 @@ void pixel_square(Square * sqr, Pixel*** pixel, int* nb_pixels){
 }
 
 void pixel_rectangle(Rectangle * rect, Pixel*** pixel, int* nb_pixels){
+    /* Crée les pixels nécessaire au traçage d'un rectangle.
+     * Ajoute les pixels dans la liste des pixels donnée en paramètres. */
+
     Point *p1 = create_point(rect->p->pos_x, rect->p->pos_y);
     Point *p2 = create_point(rect->p->pos_x + rect->width - 1, rect->p->pos_y);
     Point *p3 = create_point(rect->p->pos_x, rect->p->pos_y  + rect->height - 1);
     Point *p4 = create_point(rect->p->pos_x + rect->width - 1, rect->p->pos_y + rect->height - 1);
 
+    // Traçage des 4 lignes du rectangle
+
     Line* line = create_line(p1, p2);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p2, p4);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p4, p3);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
 
     line = create_line(p3, p1);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
+
+    // Libération des points
 
     delete_point(p1);
     delete_point(p2);
@@ -229,26 +275,29 @@ void pixel_rectangle(Rectangle * rect, Pixel*** pixel, int* nb_pixels){
 }
 
 void pixel_polygon(Polygon * poly, Pixel*** pixel, int* nb_pixels){
+    /* Crée les pixels nécessaire au traçage d'un polygone.
+     * Ajoute les pixels dans la liste des pixels donnée en paramètres. */
+
+    // Traçage des 4 lignes du polygone
 
     Line *line;
     for(int i = 0; i < poly->n-1; i++){
         line = create_line(poly->points[i], poly->points[i+1]);
-        pixel_line_for_poly(line, pixel, nb_pixels);
+        pixel_line(line, pixel, nb_pixels);
         free(line);
     }
     line = create_line(poly->points[poly->n-1], poly->points[0]);
-    pixel_line_for_poly(line, pixel, nb_pixels);
+    pixel_line(line, pixel, nb_pixels);
     free(line);
-
-    for(int i = 0; i < poly->n; i++){
-        delete_point(poly->points[i]);
-    }
 
 }
 
 
 
 Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels){
+    /* Crée et renvoie une liste des pixels correspondant au traçage
+     * d'une forme donnée en paramètres. */
+
     Pixel** pixel = (Pixel**) malloc(sizeof(Pixel*));
 
     switch ( shape->shape_type ) {
@@ -287,8 +336,11 @@ Pixel** create_shape_to_pixel(Shape * shape, int* nb_pixels){
 }
 
 void delete_pixel_shape(Pixel** pixel, int nb_pixels){
+    /* Libère la mémoire allouée à une liste de pixels. */
+
     for (int i=0; i<nb_pixels; i++) {
-        free(pixel[i]);
+        delete_pixel(pixel[i]);
     }
+    free(pixel);
 
 }

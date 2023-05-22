@@ -1,3 +1,16 @@
+/*
+    l1-project C : Dessin vectoriel
+           ----------
+           | AREA.H |
+           ----------
+
+Déclare toutes les fonctions liées à la zone de dessin.
+Défini aussi la structure Area, ainsi que la structure de l'application App.
+
+Réalisé par DELHAYE Guillaume et PORTAL Sacha
+
+*/
+
 #include "shape.h"
 
 #ifndef L1_PROJETC_AREA_H
@@ -23,7 +36,7 @@ void draw_area(Area* area);
 void print_area(Area* area);
 
 typedef struct{
-    int running;
+    int running; // Etat de l'application : 1 = en cours, 0 = terminé
     Area *area;
 } App;
 

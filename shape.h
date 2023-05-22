@@ -1,3 +1,18 @@
+/*
+    l1-project C : Dessin vectoriel
+           -----------
+           | SHAPE.H |
+           -----------
+
+Déclare l'ensemble des fonctions liés aux formes
+et à leur pointeur générique Shape.
+
+Déclare également les structures de chaque formes.
+
+Réalisé par DELHAYE Guillaume et PORTAL Sacha
+
+*/
+
 #ifndef L1_PROJECT_SHAPE_H
 #define L1_PROJECT_SHAPE_H
 
