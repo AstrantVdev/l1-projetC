@@ -156,13 +156,14 @@ void cmd_clear(){
     clear_area(app->area);
 
     jump_page();
-    printf("L'aire est maintenant vide\n");
+    printf("L'ecran est maintenant vide\n");
 }
 
 void cmd_exit(){
     /* Ferme l'application. */
 
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez ferme l'app avec succes\n");
+    jump_page();
+    printf("Vous avez ferme l'app avec succes\n");
     app->running = 0;
 }
 
@@ -347,6 +348,8 @@ void cmd_delete(Command* cmd){
 void cmd_erase(){
     /* Efface l'aire. */
     erase_area(app->area);
+    printf("L'aire est maintenant vide\n");
+
 }
 
 void cmd_help(){
