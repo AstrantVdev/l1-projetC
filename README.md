@@ -1,12 +1,18 @@
 
 # l1-project C : Dessin vectoriel
 
-Cette application permet de générer des formes géométriques à partir de coordonnées et de données entrées par l’utilisateur.
-Ces formes doivent pouvoir être affichées à l’écran toutes ensembles sur un même plan et à des coordonnées précises. 
-C’est un système de commande utilisateur qui permet la création de celles-ci ainsi que l’affichage du plan les représentant.
-Ces commandes gèrent aussi entre autres : l’affichage du plan, la destruction des formes, l’aide utilisateur et la sortie du programme.
+Cette application permet de générer des formes géométriques à partir de coordonnées et de données entrées par l’utilisateur.  
+Ces formes doivent pouvoir être affichées à l’écran toutes ensembles sur un même plan et à des coordonnées précises.  
+C’est un système de commande utilisateur qui permet la création de celles-ci ainsi que l’affichage du plan les représentant.  
+Ces commandes gèrent aussi entre autres : l’affichage du plan, la destruction des formes, l’aide utilisateur et la sortie du programme.  
 
-__***Guide d'utulisation :***__
+## __***Guide d'utilisation :***__
+
+main.c est le fichier principal, qui permet de lancer le programme.  
+Il est cepedant recommendé de lancer le programme dans un IDE comme Clion.  
+
+
+## __***Exemples d'utilisation :***__
 
 __Affichage d’une forme :__
 
@@ -29,4 +35,7 @@ __Effacement d'une forme :__
 >> clear  
 >> plot     
 >> exit //sort du programme
+
+
+*Réalisé par DELHAYE Guillaume et PORTAL Sacha*
 
