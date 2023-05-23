@@ -52,7 +52,6 @@ void free_cmd(Command* cmd){
 void read_exec_command(Command* cmd){
     /* Exécute une commande. */
 
-    printf("Commande : %s, %d\n", cmd->name, strcmp(cmd->name, "help"));
     if (strcmp(cmd->name, "clear") == 0){
         cmd_clear();
     }else if (strcmp(cmd->name, "exit") == 0){
@@ -157,13 +156,13 @@ void cmd_clear(){
     clear_area(app->area);
 
     jump_page();
-    printf("L'aire est maintenant vide :d\n");
+    printf("L'aire est maintenant vide\n");
 }
 
 void cmd_exit(){
     /* Ferme l'application. */
 
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez ferme l'app avec succes :D\n");
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVous avez ferme l'app avec succes\n");
     app->running = 0;
 }
 
@@ -275,7 +274,7 @@ void cmd_rectangle(Command* cmd){
     add_shape_to_area(app->area, rect);
     
     jump_page();
-    printf("Le rectangle a ete cree avec succes ;)\n");
+    printf("Le rectangle a ete cree avec succes\n");
 }
 
 void cmd_polygon(Command* cmd){
@@ -299,7 +298,7 @@ void cmd_polygon(Command* cmd){
     add_shape_to_area(app->area, poly);
 
     jump_page();
-    printf("Le polygone a ete cree avec succes a_a\n");
+    printf("Le polygone a ete cree avec succes\n");
 }
 
 void cmd_plot(){
