@@ -31,7 +31,8 @@ Command* create_commande(){
 void add_str_param(Command* cmd, char* p){
     /* Ajoute une chaine de caractère en paramètre d'une commande. */
 
-    cmd->str_params[cmd->str_size++] = p;
+    cmd->str_params[cmd->str_size] = (char*) malloc(sizeof(char) * strlen(p));
+    strcpy(cmd->str_params[cmd->str_size++], p);
 }
 
 void add_int_param(Command* cmd, int p){
@@ -118,7 +119,6 @@ void read_from_stdin(Command* cmd){
             continue;
 
         }
-
         // Appels suivant : paramètres de la commande
 
 
@@ -338,8 +338,10 @@ void cmd_delete(Command* cmd){
     for(int i = 0; i < app->area->nb_shape; i++) {
         if (app->area->shapes[i]->id == cmd->int_params[0]) {
             delete_shape(app->area->shapes[i]);
+            for(int j = i; j < app->area->nb_shape - 1; j++){
+                app->area->shapes[j] = app->area->shapes[j+1];
+            }
             app->area->nb_shape--;
-            app->area->shapes[i] = NULL;
             break;
         }
     }
